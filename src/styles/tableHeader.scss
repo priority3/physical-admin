@@ -1,0 +1,40 @@
+.header-box{
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: center;
+  .input-box{
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+  .btn-box{
+    width:30%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    .el-button{
+      width: 40%;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header-box{
+    flex-direction: column;
+    .input-box{
+      width: 100%;
+      gap: 10px;
+    }
+    .btn-box{
+      margin-top:20px;
+      width: 100%;
+      .el-button{
+        width: 100%;
+      }
+    }
+  }
+}
+

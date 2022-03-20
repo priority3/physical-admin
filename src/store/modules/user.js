@@ -30,13 +30,13 @@ const mutations = {
 const actions = {
   // user login
   login({ commit }, userInfo) {
-    console.log('user login')
-    const { username, password } = userInfo
+    const { userName, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
-        const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
+      login({ userName: userName.trim(), password: password }).then(response => {
+        const { token } = response
+        commit('SET_TOKEN', token)
+        setToken(token)
+        console.log('这里已经完成了')
         resolve()
       }).catch(error => {
         reject(error)
@@ -46,7 +46,6 @@ const actions = {
 
   // get user info
   getInfo({ commit, state }) {
-    console.log('get user info')
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
         const { data } = response

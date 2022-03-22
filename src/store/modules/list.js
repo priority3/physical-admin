@@ -1,4 +1,4 @@
-import { getList, getTeachInfo } from '@/api/table'
+import { getList, getTeachInfo, delListItem, fixedAppiontInfo } from '@/api/table'
 
 const state = {
   // 列表数据
@@ -22,12 +22,28 @@ const actions = {
       }).catch((err) => reject(err))
     })
   },
+  // 获取老师信息列表
   getTeachInfo() {
     return new Promise((resolve, reject) => {
       getTeachInfo().then((res) => {
-        console.log(res)
-        resolve(res)
+        resolve(res.data)
       }).catch(() => {})
+    })
+  },
+  // 删除体测信息
+  delListItem({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      delListItem(params).then((res) => {
+        resolve(res)
+      }).catch((err) => reject(err))
+    })
+  },
+  // 修改体测信息
+  fixedAppiontInfo({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      fixedAppiontInfo({ ...params }).then((res) => {
+        resolve(res)
+      }).catch((err) => reject(err))
     })
   }
 }

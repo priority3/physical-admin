@@ -47,12 +47,14 @@ export const constantRoutes = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
-    children: [{
-      path: 'dashboard',
-      name: 'Dashboard',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: '控制台', icon: 'dashboard' }
-    }]
+    children: [
+      {
+        path: 'dashboard',
+        name: 'Dashboard',
+        component: () => import('@/views/dashboard/index'),
+        meta: { title: '控制台', icon: 'dashboard' }
+      }
+    ]
   },
 
   {
@@ -69,15 +71,10 @@ export const constantRoutes = [
         meta: { title: '学生预约', icon: 'table' }
       },
       {
-        path: 'pub-appoint',
-        name: 'PubPoint',
-        component: () => import('@/views/pubPoint/index'),
-        meta: { title: '发布预约', icon: 'tree' }
-      }, {
-        path: 'free-appoint',
-        name: ' FreeAppoint',
-        component: () => import('@/views/freeAppoint/index'),
-        meta: { title: '免测预约', icon: 'user' }
+        path: 'stu-info',
+        name: 'StuInfo',
+        component: () => import('@/views/stuInfo/index'),
+        meta: { title: '学生信息', icon: 'tree' }
       }
     ]
   },
@@ -100,11 +97,12 @@ export const constantRoutes = [
   { path: '*', redirect: '/404', hidden: true }
 ]
 
-const createRouter = () => new Router({
-  // mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
-})
+const createRouter = () =>
+  new Router({
+    // mode: 'history', // require service support
+    scrollBehavior: () => ({ y: 0 }),
+    routes: constantRoutes
+  })
 
 const router = createRouter()
 

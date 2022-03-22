@@ -45,8 +45,7 @@ service.interceptors.response.use(
     // if the custom code is not 20000, it is judged as an error.
     if (res.code === 10001) {
       removeToken()
-      console.log('token失效')
-      location.href('/login')
+      location.href = '/login'
     }
 
     if (response.status !== 200) {
@@ -70,7 +69,7 @@ service.interceptors.response.use(
       }
       return Promise.reject(new Error(res.message || 'Error'))
     } else {
-      return res.data
+      return res
     }
   },
   error => {

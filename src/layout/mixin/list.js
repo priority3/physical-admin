@@ -1,5 +1,5 @@
 // 去获取tableList数据
-
+import { formatDate } from '@/utils/formatDate'
 export default {
   data() {
     return {
@@ -7,7 +7,7 @@ export default {
       baseApi: '',
       // 列表数据
       list: [{
-        'id': 2,
+        'id': '',
         'name': '第一次体测预约',
         'location': '临江操场',
         'day': '2022-03-09',
@@ -52,11 +52,11 @@ export default {
     getList() {
       const { current, size } = this.pagination
       this.$store.dispatch('list/getList', { current, size }).then((res) => {
-        const { size, total, records, current } = res
+        const { size, total, records, current } = res.data
         this.list = records
-        this.total = total
-        this.current = current
-        this.size = size
+        this.pagination.total = total
+        this.pagination.current = current
+        this.pagination.size = size
       }).catch((err) => {
         console.log(err)
       })
@@ -76,7 +76,40 @@ export default {
     // 详情按钮
     handleClick(row) {
       console.log(row)
+    },
+    // 学期下拉 更改学期信息
+    handleGetSemester(e) {
+      this.addForm.semester = this.options.filter((item) => {
+        return item.value === e
+      })[0].label
+    },
+    // 删除某个预约
+    deleteListItem({ id }) {
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.deleLoading = true
+        this.$store.dispatch('list/delListItem', { id }).then((res) => {
+          this.$notify({
+            type: 'success',
+            message: '删除成功!'
+          })
+        }
+        ).catch((err) => {
+          console.log(err)
+        }).finally(() => {
+          this.deleLoading = false
+        })
+      }).catch(() => {
+        // this.$notify({
+        //   type: 'info',
+        //   message: '已取消删除'
+        // })
+      })
     }
+
   },
   created() {
     this.getList()

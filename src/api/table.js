@@ -17,9 +17,13 @@ function getList(params) {
  * @returns 获取老师信息列表数据
  */
 function getTeachInfo() {
-  return ({
+  return request({
     url: '/teacher/list',
-    method: 'get'
+    method: 'get',
+    params: {
+      current: 1,
+      size: 10
+    }
   })
 }
 
@@ -31,8 +35,27 @@ function getDetail(params) {
   })
 }
 
+function delListItem(params) {
+  return request({
+    url: '/reserve/deleteTestById',
+    method: 'delete',
+    params
+  })
+}
+
+// 修改体测信息
+function fixedAppiontInfo(data) {
+  return request({
+    url: '/reserve/updateTest',
+    method: 'put',
+    data
+  })
+}
+
 export {
   getList,
   getDetail,
-  getTeachInfo
+  getTeachInfo,
+  delListItem,
+  fixedAppiontInfo
 }

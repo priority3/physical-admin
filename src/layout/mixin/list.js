@@ -1,5 +1,4 @@
 // 去获取tableList数据
-import { formatDate } from '@/utils/formatDate'
 export default {
   data() {
     return {
@@ -36,14 +35,14 @@ export default {
       // 分页数据
       pagination: {
         // 每页显示条数
-        size: 9,
+        size: 5,
         // 当前为第几页
         current: 1,
         // 总共数据
         total: 20,
         // showSizeChanger: true,
         // 可选的pagesize参数
-        pageSizeOptions: [9, 15, 21, 42, 60]
+        pageSizeOptions: [5, 15, 21, 42, 60]
       }
 
     }
@@ -70,8 +69,11 @@ export default {
       return Object.assign(this.pagination, this.queryParam, params)
     },
     // 分页改变触发
-    handlePaginationChanged() {
-      console.log('分页数据改变，发送请求')
+    handlePaginationChanged(e) {
+      const { page, size } = e
+      this.pagination.current = page
+      this.pagination.size = size
+      this.getList()
     },
     // 详情按钮
     handleClick(row) {
@@ -92,10 +94,18 @@ export default {
       }).then(() => {
         this.deleLoading = true
         this.$store.dispatch('list/delListItem', { id }).then((res) => {
-          this.$notify({
-            type: 'success',
-            message: '删除成功!'
-          })
+          if (res.code === 200) {
+            this.$notify({
+              type: 'success',
+              message: '删除成功!'
+            })
+            this.getList()
+          } else {
+            this.$notify({
+              type: 'warning',
+              message: '删除失败!'
+            })
+          }
         }
         ).catch((err) => {
           console.log(err)

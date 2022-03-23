@@ -54,7 +54,6 @@ export default {
     // 获取责任老师列表信息
     handleGetTeaList() {
       if (this.teacherList.length) return
-
       this.$store.dispatch('list/getTeachInfo').then((res) => {
         this.teacherList = res.records
       }).catch((err) => {})

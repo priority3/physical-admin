@@ -34,7 +34,11 @@ function getDetail(params) {
     params
   })
 }
-
+/**
+ * 删除某个预约信息
+ * @param {删除参数的id} params
+ * @returns
+ */
 function delListItem(params) {
   return request({
     url: '/reserve/deleteTestById',
@@ -43,11 +47,28 @@ function delListItem(params) {
   })
 }
 
-// 修改体测信息
+/**
+ * 修改某个 体测信息
+ * @param {修改信息的参数} data
+ * @returns
+ */
 function fixedAppiontInfo(data) {
   return request({
     url: '/reserve/updateTest',
     method: 'put',
+    data
+  })
+}
+
+/**
+ * 添加体测信息
+ * @param {添加体测信息参数 body} data
+ * @returns
+ */
+function addAppiontInfo(data) {
+  return request({
+    url: '/reserve/addTest',
+    method: 'post',
     data
   })
 }
@@ -57,5 +78,6 @@ export {
   getDetail,
   getTeachInfo,
   delListItem,
-  fixedAppiontInfo
+  fixedAppiontInfo,
+  addAppiontInfo
 }

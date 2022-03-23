@@ -33,7 +33,7 @@ const actions = {
     const { userName, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ userName: userName.trim(), password: password }).then(response => {
-        const { token } = response
+        const { token } = response.data
         commit('SET_TOKEN', token)
         setToken(token)
         console.log('这里已经完成了')

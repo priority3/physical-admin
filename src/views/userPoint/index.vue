@@ -40,7 +40,7 @@
       >
         <div slot-scope="scope" class="btn-fun-box">
           <el-button type="success" size="small" @click="$refs.form.open(scope.row)">编辑</el-button>
-          <el-button type="success" size="small" @click="$refs.form.open(scope.id)">学生信息</el-button>
+          <el-button type="success" size="small" @click="openUserInfo(scope.row)">预约列表</el-button>
           <el-button type="danger" size="small" :loading="deleLoading" @click="deleteListItem(scope.row)">删除</el-button>
         </div>
       </el-table-column>
@@ -49,6 +49,7 @@
     <pagination
       :style="{ textAlign: 'right' }"
       :total="pagination.total"
+      :size="pagination.size"
       :current-page="pagination.current"
       :page-sizes="pagination.pageSizeOptions"
       @pagination="handlePaginationChanged"
@@ -97,7 +98,8 @@ export default {
   created() {
   },
   methods: {
-    seesee() {
+    // 打开预约列表
+    openUserInfo(id) {
     }
 
   }

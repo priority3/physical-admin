@@ -6,6 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= webpackConfig.name %></title>
+    <style>
+                /* 滚动条 */
+        body::-webkit-scrollbar{
+          width: 4px;
+
+        }
+        body::-webkit-scrollbar-thumb{
+          height:5px;
+          border-radius: 2px;
+          background-color: #e6e9ea;
+        }
+    </style>
   </head>
   <body>
     <noscript>

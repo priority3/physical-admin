@@ -28,7 +28,7 @@ export default {
       type: Number,
       default: 1
     },
-    limit: {
+    size: {
       type: Number,
       default: 20
     },
@@ -66,22 +66,22 @@ export default {
     },
     pageSize: {
       get() {
-        return this.limit
+        return this.size
       },
       set(val) {
-        this.$emit('update:limit', val)
+        this.$emit('update:size', val)
       }
     }
   },
   methods: {
     handleSizeChange(val) {
-      this.$emit('pagination', { page: this.currentPage, limit: val })
+      this.$emit('pagination', { page: this.currentPage, size: val })
       if (this.autoScroll) {
         scrollTo(0, 800)
       }
     },
     handleCurrentChange(val) {
-      this.$emit('pagination', { page: val, limit: this.pageSize })
+      this.$emit('pagination', { page: val, size: this.pageSize })
       if (this.autoScroll) {
         scrollTo(0, 800)
       }

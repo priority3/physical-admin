@@ -1,4 +1,4 @@
-import { getList, getTeachInfo, delListItem, fixedAppiontInfo } from '@/api/table'
+import { getList, getTeachInfo, delListItem, fixedAppiontInfo, addAppiontInfo } from '@/api/table'
 
 const state = {
   // 列表数据
@@ -42,6 +42,14 @@ const actions = {
   fixedAppiontInfo({ commit }, params) {
     return new Promise((resolve, reject) => {
       fixedAppiontInfo({ ...params }).then((res) => {
+        resolve(res)
+      }).catch((err) => reject(err))
+    })
+  },
+  // 添加体测信息
+  addAppiontInfo({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      addAppiontInfo({ ...params }).then((res) => {
         resolve(res)
       }).catch((err) => reject(err))
     })

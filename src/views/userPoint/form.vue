@@ -124,9 +124,9 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="预约人数" prop="orderNum">
+        <el-form-item label="预约人数" prop="store">
           <el-input
-            v-model="addForm.orderNum"
+            v-model="addForm.store"
             placeholder="请输入内容"
           />
         </el-form-item>
@@ -185,7 +185,7 @@ export default {
         semester: [
           { required: true, message: '请选择体测学期', trigger: 'blur' }
         ],
-        orderNum: [
+        store: [
           { required: true, message: '请选择体测人数', trigger: 'blur' },
           { type: 'number', message: '必须为数字', trigger: 'blur', transform: (value) => Number(value) }
 
@@ -211,6 +211,24 @@ export default {
         if (valid) {
           this.addForm.hour = this.addForm.hour.join('-')
           console.log(this.addForm)
+          this.$store.dispatch('list/addAppiontInfo', { ...this.addForm }).then((res) => {
+            if (res.code === 200) {
+              this.$notify({
+                title: '添加',
+                type: 'success',
+                message: '添加成功'
+              })
+            }
+            this.$emit('complete')
+          }).catch((err) => {
+            this.$notify({
+              title: '失败',
+              message: `${err}添加失败`,
+              type: 'error'
+            })
+          }).finally(() => {
+            this.state.dialogFormVisible = false
+          })
         }
       })
     }

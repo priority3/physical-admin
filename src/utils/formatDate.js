@@ -7,8 +7,8 @@ const formatDate = (date, mat = 'YYYY-MM-DD') => day(date).format(mat)
 const getOriginDate = (date) => {
   const dateArr = date.split('-')
   const yearArr = day().format('YYYY-MM-DD')
-  return [new Date(yearArr[0], yearArr[1], yearArr[2], dateArr[0].split(':')[0], dateArr[0].split(':')[1]),
-    new Date(yearArr[0], yearArr[1], yearArr[2], dateArr[1].split(':')[0], dateArr[1].split(':')[1])]
+  return [new Date(yearArr[0], yearArr[1], yearArr[2], dateArr[0].split(':')[0], dateArr[0].split(':')[1], dateArr[0].split(':')[2]),
+    new Date(yearArr[0], yearArr[1], yearArr[2], dateArr[1].split(':')[0], dateArr[1].split(':')[1], dateArr[1].split(':')[2])]
 }
 export {
   formatDate,

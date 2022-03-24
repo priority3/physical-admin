@@ -71,11 +71,13 @@ export default {
   mixins: [list],
   data() {
     return {
+      baseApi: '/student/studentList',
       listQuery: {
         status: '',
         userid: undefined,
         userName: undefined
       },
+
       value1: '',
       form: {
         name: '',

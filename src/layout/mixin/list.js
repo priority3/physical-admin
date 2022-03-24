@@ -52,7 +52,6 @@ export default {
       const { current, size } = this.pagination
       this.$store.dispatch('list/getList', { current, size }).then((res) => {
         const { size, total, records, current } = res.data
-        console.log(records)
         this.list = records
         this.pagination.total = total
         this.pagination.current = current

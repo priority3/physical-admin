@@ -71,9 +71,9 @@ export const constantRoutes = [
         meta: { title: '学生预约', icon: 'table' }
       },
       {
-        path: 'user-appoint-detail',
+        path: 'user-appoint-detail/:id',
         name: 'UserPointDetail',
-        component: () => import('@/views/userinfo/index')
+        component: () => import('@/views/UserPointDetail/index')
       },
       {
         path: 'stu-info',

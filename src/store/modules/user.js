@@ -36,7 +36,6 @@ const actions = {
         const { token } = response.data
         commit('SET_TOKEN', token)
         setToken(token)
-        console.log('这里已经完成了')
         resolve()
       }).catch(error => {
         reject(error)

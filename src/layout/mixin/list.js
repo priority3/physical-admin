@@ -10,7 +10,7 @@ export default {
         'name': '第一次体测预约',
         'location': '临江操场',
         'day': '2022-03-09',
-        'hour': '13:00-15:00',
+        'hour': '',
         'store': 100,
         'orderNum': 5,
         'version': 3,
@@ -52,6 +52,7 @@ export default {
       const { current, size } = this.pagination
       this.$store.dispatch('list/getList', { current, size }).then((res) => {
         const { size, total, records, current } = res.data
+        console.log(records)
         this.list = records
         this.pagination.total = total
         this.pagination.current = current

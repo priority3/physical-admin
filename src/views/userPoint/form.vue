@@ -5,9 +5,16 @@
       :title="form.name"
       :visible.sync="state.visible"
       custom-class="drawer"
+      class="drawer"
       :size="size"
     >
-      <el-form ref="dataForm" :rules="fixedRules" :model="form" label-width="100px" label-position="left">
+      <el-form
+        ref="dataForm"
+        :rules="fixedRules"
+        :model="form"
+        label-width="100px"
+        label-position="left"
+      >
         <el-form-item label="日期" prop="day">
           <el-date-picker
             v-model="form.day"
@@ -38,13 +45,9 @@
           </el-select>
         </el-form-item>
         <el-form-item label="地点" prop="location">
-          <el-input
-            v-model="form.location"
-            placeholder="请输入内容"
-          />
+          <el-input v-model="form.location" placeholder="请输入内容" />
         </el-form-item>
         <el-form-item label="负责人老师" prop="teacher">
-
           <el-select v-model="form.teacher" placeholder="请选择" @change="handleChangeTeacher">
             <el-option
               v-for="item in teacherList"
@@ -54,11 +57,15 @@
             />
           </el-select>
         </el-form-item>
-
+        <el-form-item label="相关信息说明" prop="description">
+          <el-input v-model="form.description" placeholder="请输入内容" />
+        </el-form-item>
         <el-form-item label="预约人数">
           <el-tag type="warning">{{ form.orderNum }} / {{ form.store }}</el-tag>
         </el-form-item>
-
+        <el-form-item label="预约人数" prop="store">
+          <el-input v-model="form.store" placeholder="请输入内容" />
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="fixedInfo">修改</el-button>
         </el-form-item>
@@ -67,12 +74,15 @@
 
     <!-- 弹出框添加 -->
     <el-dialog title="新建体测预约" :visible.sync="state.dialogFormVisible">
-      <el-form ref="dataForm" :rules="fixedRules" :model="addForm" label-width="100px" label-position="left">
+      <el-form
+        ref="dataForm"
+        :rules="fixedRules"
+        :model="addForm"
+        label-width="100px"
+        label-position="left"
+      >
         <el-form-item label="体测名称" prop="name">
-          <el-input
-            v-model="addForm.name"
-            placeholder="请输入内容"
-          />
+          <el-input v-model="addForm.name" placeholder="请输入内容" />
         </el-form-item>
         <el-form-item label="体测日期" prop="day">
           <el-date-picker
@@ -81,10 +91,8 @@
             placeholder="选择日期"
             value-format="yyyy-MM-dd"
           />
-
         </el-form-item>
         <el-form-item label="具体时间" prop="hour">
-
           <el-time-picker
             v-model="addForm.hour"
             is-range
@@ -106,13 +114,9 @@
           </el-select>
         </el-form-item>
         <el-form-item label="地点" prop="location">
-          <el-input
-            v-model="addForm.location"
-            placeholder="请输入内容"
-          />
+          <el-input v-model="addForm.location" placeholder="请输入内容" />
         </el-form-item>
         <el-form-item label="负责人老师" prop="teacher">
-
           <el-select v-model="addForm.teacher" placeholder="请选择" @change="handleaddChangeTeacher">
             <el-option
               v-for="item in teacherList"
@@ -122,12 +126,11 @@
             />
           </el-select>
         </el-form-item>
-
         <el-form-item label="预约人数" prop="store">
-          <el-input
-            v-model="addForm.store"
-            placeholder="请输入内容"
-          />
+          <el-input v-model="addForm.store" placeholder="请输入内容" />
+        </el-form-item>
+        <el-form-item label="相关信息说明" prop="description">
+          <el-input v-model="addForm.description" placeholder="请输入内容" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -145,12 +148,20 @@ export default {
   mixins: [form],
   data() {
     // 自定义校验规则
+    const storeValidatePass = (rule, value, callback) => {
+      const { orderNum, store } = this.form
+
+      if (this.state.visible && orderNum > store) {
+        callback(new Error('预约人数不能低于以预约人数'))
+      }
+      callback()
+    }
     return {
       formInline: {
         user: '',
         region: ''
       },
-      size: '50%',
+      size: '30%',
       options: [{
         value: '选项1',
         label: '第一学期'
@@ -186,11 +197,12 @@ export default {
         ],
         store: [
           { required: true, message: '请选择体测人数', trigger: 'blur' },
-          { type: 'number', message: '必须为数字', trigger: 'blur', transform: (value) => Number(value) }
-
+          { type: 'number', message: '必须为数字', trigger: 'blur', transform: (value) => Number(value) },
+          { validator: storeValidatePass, trigger: 'blur' }
         ]
 
-      }
+      },
+      num: 0
 
     }
   },
@@ -209,7 +221,6 @@ export default {
       this.$refs.dataForm.validate(valid => {
         if (valid) {
           this.addForm.hour = this.addForm.hour.join('-')
-          console.log(this.addForm)
           this.$store.dispatch('list/addAppiontInfo', { ...this.addForm }).then((res) => {
             if (res.code === 200) {
               this.$notify({
@@ -236,17 +247,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  ::v-deep .drawer{
+::v-deep .drawer {
   padding-left: 20px;
 }
 
-@media screen and (max-width:992){
-   .drawer{
+@media screen and (max-width: 992) {
+  .drawer {
     width: 100%;
   }
 }
 // .el-drawer.rtl {
 //         overflow: scroll
 //     }
-
 </style>

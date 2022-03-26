@@ -1,22 +1,28 @@
-import { getList, getTeachInfo, delListItem, fixedAppiontInfo, addAppiontInfo } from '@/api/table'
+import { getList, getTeachInfo, delListItem, fixedAppiontInfo, addAppiontInfo, getStudentListByInfo, handleDelUsedInfo } from '@/api/table'
 
 const state = {
   // 列表数据
-  tableList: []
+  tableList: [],
+  detailName: '',
+  detailId: ''
 }
 
 const mutations = {
   // 用于查看详细数据
   SET_LIST(state, newlist) {
     state.tableList = newlist
+  },
+  SET_PARAMS_INFO(state, { name, id }) {
+    state.detailName = name
+    state.detailId = id
   }
+
 }
 const actions = {
   // 获取已有的体测列表
   getList({ commit }, params) {
-    const { current, size } = params
     return new Promise((resolve, reject) => {
-      getList({ current, size }).then((res) => {
+      getList({ ...params }).then((res) => {
         commit('SET_LIST', res.records)
         resolve(res)
       }).catch((err) => reject(err))
@@ -33,7 +39,7 @@ const actions = {
   // 删除体测信息
   delListItem({ commit }, params) {
     return new Promise((resolve, reject) => {
-      delListItem(params).then((res) => {
+      delListItem({ ...params }).then((res) => {
         resolve(res)
       }).catch((err) => reject(err))
     })
@@ -52,6 +58,23 @@ const actions = {
       addAppiontInfo({ ...params }).then((res) => {
         resolve(res)
       }).catch((err) => reject(err))
+    })
+  },
+  // 根据体测id获取学生列表
+  getStudentListByInfo({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      getStudentListByInfo({ ...params }).then((res) => {
+        resolve(res)
+      }).catch((err) => reject(err))
+    })
+  },
+
+  // 删除已预约的学生
+  handleDelUsedInfo({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      handleDelUsedInfo({ ...params }).then((res) => {
+        resolve(res)
+      }).catch(err => reject(err))
     })
   }
 }

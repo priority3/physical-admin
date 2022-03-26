@@ -26,19 +26,18 @@ export default {
         semester: '',
         location: '',
         orderNum: '',
-        headid: ''
+        headid: '',
+        description: ''
       }
     }
   },
   methods: {
     // 打开表单
     open(data) {
-      console.log(data)
       this.state.visible = true
       // 将传过来的hour字符串改为时间格式
       const hour = getOriginDate(data.hour)
       //
-      console.log(hour)
       // 浅拷贝 会造成form更改数据后 影响list当中的数据
       this.form = { ...data, teacher: data.teacherInfo.name, hour }
       // 获取老师列表信息
@@ -88,7 +87,7 @@ export default {
     fixedInfo() {
       this.$refs.dataForm.validate(valid => {
         if (valid) {
-          const { id, name, location, store, hour, orderNum, day, semester, headid } = this.form
+          const { id, name, location, hour, orderNum, day, semester, headid, store } = this.form
           delete this.form.teacherInfo
           this.form = {
             id, name, location, hour: hour.join('-'), store, orderNum, semester, headid,

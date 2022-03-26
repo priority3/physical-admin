@@ -46,6 +46,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 .dashboard-container{
   height:calc(100vh - 70px);
   .dashboard-title{

@@ -4,34 +4,11 @@ export default {
     return {
       // 请求接口的基础路径
       baseApi: '',
+      // 删除接口的路径
+      deleteApi: '',
       // 列表数据
-      list: [{
-        'id': '',
-        'name': '第一次体测预约',
-        'location': '临江操场',
-        'day': '2022-03-09',
-        'hour': '',
-        'store': 100,
-        'orderNum': 5,
-        'version': 3,
-        'semester': '2020上学期',
-        'headid': 1,
-        'delFlag': '0',
-        'teacherInfo': {
-          'id': 1,
-          'userId': 2,
-          'name': '张三',
-          'sex': '男',
-          'college': '计算机学院',
-          'phoneNum': 12345678900
-        }
+      list: [],
 
-      }],
-      // 列表数据接口
-      queryParam: {
-        limit: 10,
-        total: 10
-      },
       // 分页数据
       pagination: {
         // 每页显示条数
@@ -39,18 +16,29 @@ export default {
         // 当前为第几页
         current: 1,
         // 总共数据
-        total: 20,
+        total: 0,
         // showSizeChanger: true,
         // 可选的pagesize参数
         pageSizeOptions: [5, 15, 21, 42, 60]
-      }
-
+      },
+      // 是否加载数据
+      isFirstGetlist: true,
+      // 删除按钮的loading
+      deleLoading: false,
+      // 数据请求状态
+      tableLoading: false,
+      params: {}
     }
   },
   methods: {
     getList() {
-      const { current, size } = this.pagination
-      this.$store.dispatch('list/getList', { current, size }).then((res) => {
+      const { size, current } = this.pagination
+      this.params = this.rebuildParams({ size, current })
+
+      this.tableLoading = true
+      console.log(this.params)
+      this.$store.dispatch(this.baseApi, this.params).then((res) => {
+        console.log(res)
         const { size, total, records, current } = res.data
         this.list = records
         this.pagination.total = total
@@ -58,18 +46,37 @@ export default {
         this.pagination.size = size
       }).catch((err) => {
         console.log(err)
+      }).finally(() => {
+        this.tableLoading = false
       })
     },
-    onSearch(listQuery) {
-      const fetchParams = this.mergeParams(listQuery)
-      console.log(fetchParams)
+    // 查找
+    onSearch(query) {
+      if (query) {
+        this.params = this.rebuildParams(query)
+      }
+      this.params = this.mergeParams()
+      this.getList()
+    },
+    // 导出
+    onExport() {
+      this.$store.dispatch(this.exportApi, this.params).then((res) => {
+        this.$notify({
+          title: '导出成功',
+          message: '导出学生信息成功',
+          type: 'success'
+        })
+      }).catch((err) => {
+        console.log(err)
+      })
     },
     // 将列表查询参数和混合参数合并
-    mergeParams(params) {
-      return Object.assign(this.pagination, this.queryParam, params)
+    mergeParams() {
+      return Object.assign(this.params, this.listQuery)
     },
     // 分页改变触发
     handlePaginationChanged(e) {
+      console.log(e)
       const { page, size } = e
       this.pagination.current = page
       this.pagination.size = size
@@ -93,7 +100,7 @@ export default {
         type: 'warning'
       }).then(() => {
         this.deleLoading = true
-        this.$store.dispatch('list/delListItem', { id }).then((res) => {
+        this.$store.dispatch(this.deleteApi, { id }).then((res) => {
           if (res.code === 200) {
             this.$notify({
               type: 'success',
@@ -118,10 +125,19 @@ export default {
         //   message: '已取消删除'
         // })
       })
+    },
+    // 重新构建请求参数
+    rebuildParams(curParams) {
+      return {
+        ...this.params,
+        ...curParams,
+        id: this.id
+      }
     }
 
   },
   created() {
+    if (!this.isFirstGetlist) return
     this.getList()
   }
 }

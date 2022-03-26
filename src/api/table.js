@@ -72,6 +72,29 @@ function addAppiontInfo(data) {
     data
   })
 }
+/**
+ * 根据体测id获取学生列表
+ * @param {查找id} params
+ */
+function getStudentListByInfo(params) {
+  return request({
+    url: '/reserve/orderList',
+    method: 'get',
+    params
+  })
+}
+/**
+ * 删除已预约的学生
+ * @param {学生id} params
+ * @returns
+ */
+function handleDelUsedInfo(params) {
+  return request({
+    url: '/reserve/deleteOrderById',
+    method: 'delete',
+    params
+  })
+}
 
 export {
   getList,
@@ -79,5 +102,7 @@ export {
   getTeachInfo,
   delListItem,
   fixedAppiontInfo,
-  addAppiontInfo
+  addAppiontInfo,
+  getStudentListByInfo,
+  handleDelUsedInfo
 }

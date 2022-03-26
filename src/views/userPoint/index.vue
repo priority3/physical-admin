@@ -4,7 +4,13 @@
     <div>
       <div class="header-box">
         <div class="input-box">
-          <el-input v-model="listQuery.userName" placeholder="请输入姓名..." />
+          <el-input v-model="listQuery.location" placeholder="请输入地点..." clearable />
+          <el-date-picker
+            v-model="listQuery.day"
+            type="date"
+            placeholder="选择日期"
+            value-format="yyyy-MM-dd"
+          />
         </div>
         <div class="btn-box">
           <el-button type="primary" @click="onSearch">查询</el-button>
@@ -12,36 +18,24 @@
         </div>
       </div>
     </div>
-    <el-table
-      :data="list"
-      style="width: 100%;margin-top: 40px;"
-    >
-      <el-table-column
-        prop="name"
-        label="体测项目"
-      />
-      <el-table-column
-        prop="day"
-        label="体测时间"
-      />
+    <el-table v-loading="tableLoading" :data="list" style="width: 100%;margin-top: 40px;">
+      <el-table-column prop="name" label="体测项目" />
+      <el-table-column prop="day" label="体测时间" />
 
-      <el-table-column
-        prop="location"
-        label="体测地点"
-      />
+      <el-table-column prop="location" label="体测地点" />
 
-      <el-table-column
-        prop="teacherInfo.name"
-        label="责任老师"
-      />
+      <el-table-column prop="teacherInfo.name" label="责任老师" />
 
-      <el-table-column
-        label="操作"
-      >
+      <el-table-column label="操作" width="250">
         <div slot-scope="scope" class="btn-fun-box">
           <el-button type="success" size="small" @click="$refs.form.open(scope.row)">编辑</el-button>
           <el-button type="success" size="small" @click="openUserInfo(scope.row)">预约列表</el-button>
-          <el-button type="danger" size="small" :loading="deleLoading" @click="deleteListItem(scope.row)">删除</el-button>
+          <el-button
+            type="danger"
+            size="small"
+            :loading="deleLoading"
+            @click="deleteListItem(scope.row)"
+          >删除</el-button>
         </div>
       </el-table-column>
     </el-table>
@@ -55,9 +49,7 @@
       @pagination="handlePaginationChanged"
     />
     <detail-form ref="form" @complete="getList" />
-
   </div>
-
 </template>
 
 <script>
@@ -74,12 +66,11 @@ export default {
   data() {
     return {
       listQuery: {
-        status: '',
-        userid: undefined,
-        userName: undefined
+        location: undefined,
+        day: undefined
       },
-      deleLoading: false,
-
+      baseApi: 'list/getList',
+      deleteApi: 'list/delListItem',
       options: [{
         value: '选项1',
         label: '第一学期'
@@ -99,9 +90,14 @@ export default {
   },
   methods: {
     // 打开预约列表
-    openUserInfo({ id }) {
+    openUserInfo(data) {
+      const { name, id } = data
+      // vuex 页面刷新 数据会刷新
+      // this.$store.commit('list/SET_PARAMS_INFO', { name, id })
+      sessionStorage.setItem('name', name)
+      sessionStorage.setItem('id', id)
       this.$router.push({
-        path: `/appoint/user-appoint-detail/${id}`
+        path: `/appoint/user-appoint-detail`
       })
     }
 
@@ -110,37 +106,36 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/tableHeader.scss';
+@import "@/styles/tableHeader.scss";
 
 // 修改 在移动端下 按钮 上下不对成的样式问题
 @media screen and (max-width: 768px) {
-
-  .app-container{
+  .app-container {
     .cell {
-      .el-button{
+      .el-button {
         margin-left: 0;
       }
     }
   }
-  .btn-fun-box{
+  .btn-fun-box {
     gap: 10px;
   }
 }
 @media screen and (max-width: 1134px) {
-
-  .btn-fun-box{
+  .btn-fun-box {
     flex-direction: column;
     justify-content: center;
-    text-align: center;
     gap: 10px;
+    .el-button {
+      width: 30%;
+    }
   }
-  .btn-fun-box .el-button+.el-button{
+  .btn-fun-box .el-button + .el-button {
     margin-left: 0;
   }
 }
-.btn-fun-box{
-  display:flex;
+.btn-fun-box {
+  display: flex;
   flex-wrap: wrap;
-  align-items: center;
 }
 </style>

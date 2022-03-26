@@ -17,15 +17,6 @@
       <template slot="tab-content">
         <component :is="curtabTable" :ref="curtabTable" />
       </template>
-      <pagination
-        slot="tab-footer"
-        :style="{ textAlign: 'right' }"
-        :total="pagination.total"
-        :size="pagination.size"
-        :current-page="pagination.current"
-        :page-sizes="pagination.pageSizeOptions"
-        @pagination="handlePaginationChanged"
-      />
     </tabs>
     <!-- 分页 -->
   </div>
@@ -66,7 +57,6 @@ export default {
   },
   computed: {},
   created() {
-
   },
   methods: {
     // 获取api信息 查询

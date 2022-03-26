@@ -52,8 +52,7 @@ export default {
         return
       }
       this.$emit('tab-click', item['tab-key'])
-      // 触发父组件更新 baseapi
-      this.$emit('gerApiInfo', item['base-api'])
+      
     }
   }
 }

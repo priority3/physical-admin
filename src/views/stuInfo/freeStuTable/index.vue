@@ -13,13 +13,25 @@
         </template>
       </el-table-column>
     </el-table>
+    <pagination
+      :style="{ textAlign: 'right' }"
+      :total="pagination.total"
+      :size="pagination.size"
+      :current-page="pagination.current"
+      :page-sizes="pagination.pageSizeOptions"
+      @pagination="handlePaginationChanged"
+    />
   </div>
 </template>
 
 <script>
+import pagination from '@/components/Pagination/index.vue'
+
 import list from '@/layout/mixin/list.js'
 export default {
-
+  components: {
+    pagination
+  },
   mixins: [list],
   data() {
     return {

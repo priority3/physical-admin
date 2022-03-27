@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, logout, getInfo, updatePwd } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -84,6 +84,17 @@ const actions = {
       removeToken() // must remove  token  first
       commit('RESET_STATE')
       resolve()
+    })
+  },
+  // user 修改密码
+  updatePwd({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      updatePwd({ ...params }).then((res) => {
+        console.log(res)
+        resolve(res)
+      }).catch(error => {
+        reject(error)
+      })
     })
   }
 }

@@ -22,3 +22,15 @@ export function logout() {
     method: 'get'
   })
 }
+/**
+ * 管理员修改密码
+ * @param {prePassword,newPassword} params
+ * @returns
+ */
+export function updatePwd(data) {
+  return request({
+    url: '/student/updateStuPwd',
+    method: 'put',
+    data
+  })
+}

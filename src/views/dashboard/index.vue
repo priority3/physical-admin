@@ -73,7 +73,7 @@ export default {
       height: 300px;
       cursor: pointer;
       border-radius: 15px;
-      background: linear-gradient(45deg, #ccf1ee 0%, #aff394 100%);
+      background: linear-gradient(45deg, #43a2d4, #f2fcfe);
       box-shadow: 5px 5px 10px #ccc;
       // margin-left: -50px;
       transition: all 0.3s;
@@ -87,7 +87,7 @@ export default {
         font-weight: 600;
         font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
           "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-        color: rgb(70, 70, 70);
+        color: #ffffff;
         display: flex;
         width: 70%;
         justify-content: space-between;
@@ -109,6 +109,19 @@ export default {
 @media screen and (max-width: 623px) {
   .dashboard-container {
     height: auto;
+    .dashboard-title {
+      font-size: 25px;
+    }
+    .dashboaed-box {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+
+      .dashboard-item {
+        width: 250px;
+        height: 250px;
+      }
+    }
   }
 }
 </style>

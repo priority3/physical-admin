@@ -57,7 +57,7 @@
       <!-- <div class="tips">
         <span style="margin-right:20px;">username: admin</span>
         <span> password: any</span>
-      </div> -->
+      </div>-->
     </el-form>
   </div>
 </template>
@@ -99,7 +99,7 @@ export default {
   watch: {
     // 监听路由,每次刷新都是原来的路由
     $route: {
-      handler: function(route) {
+      handler: function (route) {
         this.redirect = route.query && route.query.redirect
       },
       immediate: true
@@ -130,8 +130,12 @@ export default {
               this.$router.push({ path: this.redirect || '/' })
               this.loading = false
             })
-            .catch(() => {
+            .catch((err) => {
               this.loading = false
+              this.$message({
+                message: err || '登录失败',
+                type: 'error'
+              })
             })
         } else {
           console.log('error submit!!')

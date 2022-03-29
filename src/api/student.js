@@ -56,11 +56,10 @@ const handleDeleteStuInfo = (params) => {
  * @param {size,current} params
  * @returns
  */
-const handleExcelAllStu = (params) => {
+const handleExcelAllStu = () => {
   return request({
     url: '/excel/downloadStudentList',
-    method: 'get',
-    params
+    method: 'get'
   })
 }
 
@@ -69,11 +68,19 @@ const handleExcelAllStu = (params) => {
  * @param {size,current} params
  * @returns
  */
-const handleExcelFreeStu = (params) => {
+const handleExcelFreeStu = () => {
   return request({
     url: '/excel/downloadFreeTestStudent',
-    method: 'get',
-    params
+    method: 'get'
+  })
+}
+const handleRejectStu = (params) => {
+  return request({
+    url: '/freeTest/rejectApplication',
+    method: 'post',
+    data: {
+      ...params
+    }
   })
 }
 
@@ -83,5 +90,6 @@ export {
   handleDeleteFreeInfo,
   handleDeleteStuInfo,
   handleExcelAllStu,
-  handleExcelFreeStu
+  handleExcelFreeStu,
+  handleRejectStu
 }

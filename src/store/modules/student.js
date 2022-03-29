@@ -1,4 +1,12 @@
-import { handleGetStuInfo, handleGetFreeStuInfo, handleDeleteFreeInfo, handleDeleteStuInfo, handleExcelAllStu, handleExcelFreeStu } from '@/api/student'
+import {
+  handleGetStuInfo,
+  handleGetFreeStuInfo,
+  handleDeleteFreeInfo,
+  handleDeleteStuInfo,
+  handleExcelAllStu,
+  handleExcelFreeStu,
+  handleRejectStu
+} from '@/api/student'
 
 const state = {
 
@@ -43,16 +51,25 @@ const actions = {
     })
   },
   // 导出全体学生列表信息
-  handleExcelAllStu({ commit }, params) {
+  handleExcelAllStu({ commit }) {
     return new Promise((resolve, reject) => {
-      handleExcelAllStu({ ...params }).then(res => {
+      handleExcelAllStu().then(res => {
         resolve(res)
       }).catch(err => reject(err))
     })
   },
-  handleExcelFreeStu({ commit }, params) {
+  // 导出免测学生列表
+  handleExcelFreeStu({ commit }) {
     return new Promise((resolve, reject) => {
-      handleExcelFreeStu({ ...params }).then((res) => {
+      handleExcelFreeStu().then((res) => {
+        resolve(res)
+      }).catch(err => reject(err))
+    })
+  },
+  // 拒绝免测
+  handleRejectStu({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      handleRejectStu({ ...params }).then((res) => {
         resolve(res)
       }).catch(err => reject(err))
     })

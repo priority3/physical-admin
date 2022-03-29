@@ -9,7 +9,8 @@
         </div>
         <div class="btn-box">
           <el-button type="primary" @click="$refs[curtabTable].onSearch(listQuery)">查询</el-button>
-          <el-button type="primary">导出</el-button>
+          <el-button type="primary" @click="$refs[curtabTable].onExport()">导出</el-button>
+          <el-button type="primary">导入</el-button>
         </div>
       </div>
     </div>
@@ -67,9 +68,15 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/styles/tableHeader.scss";
+.btn-box {
+  margin-left: 20px;
+}
 
 // 修改 在移动端下 按钮 上下不对成的样式问题
 @media screen and (max-width: 768px) {
+  .btn-box {
+    margin-left: 0;
+  }
   .app-container {
     .cell {
       .el-button {

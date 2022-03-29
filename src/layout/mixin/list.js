@@ -60,7 +60,8 @@ export default {
     },
     // 导出
     onExport() {
-      this.$store.dispatch(this.exportApi, this.params).then((res) => {
+      console.log(this.exportApi)
+      this.$store.dispatch(this.exportApi).then((res) => {
         this.$notify({
           title: '导出成功',
           message: '导出学生信息成功',

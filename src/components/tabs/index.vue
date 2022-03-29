@@ -52,7 +52,6 @@ export default {
         return
       }
       this.$emit('tab-click', item['tab-key'])
-      
     }
   }
 }

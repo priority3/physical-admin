@@ -80,6 +80,11 @@ export const constantRoutes = [
         name: 'StuInfo',
         component: () => import('@/views/stuInfo/index'),
         meta: { title: '学生信息', icon: 'tree' }
+      }, {
+        path: 'free-approve',
+        name: 'FreeApprove',
+        component: () => import('@/views/freeApprove/index'),
+        meta: { title: '免测审批', icon: 'el-icon-ice-cream-square' }
       }
     ]
   },

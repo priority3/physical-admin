@@ -9,7 +9,7 @@
       <el-table-column prop="userName" label="学号" />
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
-          <el-button size="small" type="danger" @click="deleteListItem(scope.row)">删除</el-button>
+          <el-button size="small" type="danger" @click="deleteListItem(scope.row)">撤销申请</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -26,7 +26,6 @@
 
 <script>
 import pagination from '@/components/Pagination/index.vue'
-
 import list from '@/layout/mixin/list.js'
 export default {
   components: {
@@ -37,7 +36,7 @@ export default {
     return {
       baseApi: 'student/handleGetFreeStuInfo',
       deleteApi: 'student/handleDeleteFreeInfo',
-      exportApi: 'student/handleExportFreeInfo'
+      exportApi: 'student/handleExcelFreeStu'
     }
   },
   created() {

@@ -37,7 +37,7 @@ export default {
     return {
       baseApi: 'student/handleGetStuInfo',
       deleteApi: 'student/handleDeleteStuInfo',
-      exportApi: 'student/handleExportStuInfo'
+      exportApi: 'student/handleExcelAllStu'
     }
   },
   created() {

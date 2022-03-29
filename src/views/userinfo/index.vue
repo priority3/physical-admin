@@ -24,26 +24,26 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="16" :xs="24">
+      <!-- <el-col :span="16" :xs="24">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>卡片名称</span>
           </div>
           <activity />
         </el-card>
-      </el-col>
+      </el-col>-->
     </el-row>
   </div>
 </template>
 
 <script>
 import userCard from './user-card'
-import activity from './activity'
+// import activity from './activity'
 // import { selfConfirm } from '@/utils/notice'
 export default {
   components: {
-    userCard,
-    activity
+    userCard
+    // activity
   },
   data() {
     const checkIsSame = (rule, value, callback) => {

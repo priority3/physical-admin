@@ -37,7 +37,7 @@
         <el-form-item label="学期" prop="semester">
           <el-select v-model="form.semester" placeholder="请选择" @change="handleGetSemester">
             <el-option
-              v-for="item in options"
+              v-for="item in semesterDataList"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -50,10 +50,10 @@
         <el-form-item label="负责人老师" prop="teacher">
           <el-select v-model="form.teacher" placeholder="请选择" @change="handleChangeTeacher">
             <el-option
-              v-for="item in teacherList"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
+              v-for="item in teacherDataList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
             />
           </el-select>
         </el-form-item>
@@ -104,9 +104,9 @@
           />
         </el-form-item>
         <el-form-item label="学期" prop="semester">
-          <el-select v-model="addForm.semester" placeholder="请选择" @change="handleaddGetSemester">
+          <el-select v-model="addForm.semester" placeholder="请选择" @change="handleAddGetSemester">
             <el-option
-              v-for="item in options"
+              v-for="item in semesterDataList"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -117,12 +117,12 @@
           <el-input v-model="addForm.location" placeholder="请输入内容" />
         </el-form-item>
         <el-form-item label="负责人老师" prop="teacher">
-          <el-select v-model="addForm.teacher" placeholder="请选择" @change="handleaddChangeTeacher">
+          <el-select v-model="addForm.teacher" placeholder="请选择" @change="handleAddChangeTeacher">
             <el-option
-              v-for="item in teacherList"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
+              v-for="item in teacherDataList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
             />
           </el-select>
         </el-form-item>
@@ -162,19 +162,7 @@ export default {
         region: ''
       },
       size: '30%',
-      options: [{
-        value: '选项1',
-        label: '第一学期'
-      }, {
-        value: '选项2',
-        label: '第二学期'
-      }, {
-        value: '选项3',
-        label: '第三学期'
-      }, {
-        value: '选项4',
-        label: '第四学期'
-      }],
+
       fixedRules: {
         name: [
           { required: true, message: '请输入体测名称', trigger: 'blur' },
@@ -202,19 +190,33 @@ export default {
         ]
 
       },
-      num: 0
-
+      num: 0,
+      isGetTeacher: true,
+      isGetSemester: true
     }
   },
+  computed: {
+    teacherDataList(self) {
+      return self.teacherList?.map((item, index) => {
+        return {
+          value: item.id,
+          label: item.name
+        }
+      }) ?? []
+    },
+    semesterDataList(self) {
+      return self.semesterList?.map((item, index) => {
+        return {
+          value: index,
+          label: item
+        }
+      }) ?? []
+    }
+  },
+
   created() {
   },
   methods: {
-    // 学期下拉 更改学期信息
-    handleGetSemester(e) {
-      this.form.semester = this.options.filter((item) => {
-        return item.value === e
-      })[0].label
-    },
 
     // 添加预约
     handleAddAppoint() {

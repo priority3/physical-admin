@@ -1,4 +1,13 @@
-import { getList, getTeachInfo, delListItem, fixedAppiontInfo, addAppiontInfo, getStudentListByInfo, handleDelUsedInfo } from '@/api/table'
+import {
+  getList,
+  getTeachInfo,
+  delListItem,
+  fixedAppiontInfo,
+  addAppiontInfo,
+  getStudentListByInfo,
+  handleDelUsedInfo,
+  handleGetSemester
+} from '@/api/table'
 
 const state = {
   // 列表数据
@@ -73,6 +82,15 @@ const actions = {
   handleDelUsedInfo({ commit }, params) {
     return new Promise((resolve, reject) => {
       handleDelUsedInfo({ ...params }).then((res) => {
+        resolve(res)
+      }).catch(err => reject(err))
+    })
+  },
+
+  // 获取学期
+  handleGetSemester({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      handleGetSemester().then((res) => {
         resolve(res)
       }).catch(err => reject(err))
     })

@@ -35,8 +35,14 @@ export default {
   data() {
     return {
       baseApi: 'student/handleGetFreeStuInfo',
+
       deleteApi: 'student/handleDeleteFreeInfo',
       exportApi: 'student/handleExcelFreeStu'
+    }
+  },
+  computed: {
+    listQuery(self) {
+      return self.$attrs['table-list-query']
     }
   },
   created() {

@@ -35,7 +35,7 @@ export default {
     tabs,
     selfButton,
     // 切换组件
-    allStuTable: () => import('./allStuTable/index.vue')
+    allTeacherInfo: () => import('./allTeacherTable/index.vue')
   },
   data() {
     return {
@@ -43,13 +43,13 @@ export default {
         name: undefined,
         userName: undefined
       },
-      curtabTable: 'allStuTable',
+      curtabTable: 'allTeacherInfo',
       // 删除按钮状态
       deleLoading: false,
       // tabs
       tabspanel: [{
-        'tab-name': '所有学生',
-        'tab-key': 'allStuTable'
+        'tab-name': '教师信息',
+        'tab-key': 'allTeacherInfo'
       }]
     }
   },

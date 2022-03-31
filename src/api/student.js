@@ -74,13 +74,25 @@ const handleExcelFreeStu = () => {
     method: 'get'
   })
 }
+
+/**
+ *  拒绝该免测
+ * @param {拒绝理由，id} params
+ * @returns
+ */
 const handleRejectStu = (params) => {
   return request({
     url: '/freeTest/rejectApplication',
     method: 'post',
-    data: {
-      ...params
-    }
+    data: params
+  })
+}
+
+const handleApproveFree = (params) => {
+  return request({
+    url: '/freeTest/agreeApplication',
+    method: 'put',
+    data: params
   })
 }
 
@@ -91,5 +103,6 @@ export {
   handleDeleteStuInfo,
   handleExcelAllStu,
   handleExcelFreeStu,
-  handleRejectStu
+  handleRejectStu,
+  handleApproveFree
 }

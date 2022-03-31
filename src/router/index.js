@@ -51,7 +51,7 @@ export const constantRoutes = [
       {
         path: 'dashboard',
         name: 'Dashboard',
-        component: () => import('@/views/dashboard/index'),
+        component: () => import(/* webpackChunkName: "dashboard" */'@/views/dashboard/index'),
         meta: { title: '控制台', icon: 'dashboard' }
       }
     ]
@@ -65,30 +65,57 @@ export const constantRoutes = [
     meta: { title: '预约管理', icon: 'el-icon-s-help' },
     children: [
       {
-        path: 'user-appoint',
+        path: 'manageList',
         name: 'UserPoint',
-        component: () => import('@/views/userPoint/index'),
-        meta: { title: '学生预约', icon: 'table' }
+        component: () => import('@/views/approintManagement/index'),
+        meta: { title: '预约列表', icon: 'table' }
       },
       {
         path: 'user-appoint-detail',
         name: 'UserPointDetail',
         component: () => import('@/views/UserPointDetail/index')
-      },
-      {
-        path: 'stu-info',
-        name: 'StuInfo',
-        component: () => import('@/views/stuInfo/index'),
-        meta: { title: '学生信息', icon: 'tree' }
-      }, {
-        path: 'free-approve',
-        name: 'FreeApprove',
-        component: () => import('@/views/freeApprove/index'),
-        meta: { title: '免测审批', icon: 'el-icon-ice-cream-square' }
       }
     ]
   },
-
+  {
+    path: '/student',
+    component: Layout,
+    redirect: '/',
+    children: [
+      {
+        path: '/stu-info',
+        name: 'StuInfo',
+        component: () => import('@/views/stuInfo/index'),
+        meta: { title: '学生信息', icon: 'tree' }
+      }
+    ]
+  },
+  {
+    path: '/free',
+    component: Layout,
+    redirect: '/',
+    children: [
+      {
+        path: '/manage-free',
+        name: 'freeApprove',
+        component: () => import('@/views/freeApprove/index'),
+        meta: { title: '免测管理', icon: 'tree' }
+      }
+    ]
+  },
+  {
+    path: '/teacher',
+    component: Layout,
+    redirect: '/',
+    children: [
+      {
+        path: '/teacher-info',
+        name: 'TeacherInfo',
+        component: () => import('@/views/teacherInfo/index'),
+        meta: { title: '老师信息', icon: 'tree' }
+      }
+    ]
+  },
   {
     path: '/user',
     component: Layout,

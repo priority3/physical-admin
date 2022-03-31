@@ -96,6 +96,13 @@ function handleDelUsedInfo(params) {
   })
 }
 
+function handleGetSemester() {
+  return request({
+    url: '/semester',
+    method: 'get'
+  })
+}
+
 export {
   getList,
   getDetail,
@@ -104,5 +111,6 @@ export {
   fixedAppiontInfo,
   addAppiontInfo,
   getStudentListByInfo,
-  handleDelUsedInfo
+  handleDelUsedInfo,
+  handleGetSemester
 }

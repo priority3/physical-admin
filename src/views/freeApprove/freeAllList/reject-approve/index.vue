@@ -1,12 +1,12 @@
 <template>
   <div>
-    <el-dialog title="申请详细信息" :visible.sync="outerVisible">
+    <el-dialog title="填写理由" :visible.sync="outerVisible">
       <el-form ref="rejectForm" :model="form" label-width="100px" label-position="left">
         <el-form-item
-          label="驳回理由"
+          :label="modelMap['dialog-title']"
           prop="reason"
           :rules="{
-            required: true, message: '请输入驳回理由', trigger: 'blur'
+            required: true, message: modelMap['dialog-message'], trigger: 'blur'
           }"
         >
           <el-input v-model="form.reason" placeholder="请输入内容" />
@@ -14,7 +14,11 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="outerVisible = false">取 消</el-button>
-        <el-button type="primary" @click="handleReject($refs['rejectForm'])">确定</el-button>
+        <el-button
+          type="primary"
+          :loading="btnLoading"
+          @click="handleReject($refs['rejectForm'])"
+        >确定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -25,15 +29,33 @@ export default {
   data() {
     return {
       outerVisible: false,
-
+      // 驳回 or 同意
+      delOrApr: 0,
       form: {
         reason: '',
         id: ''
-      }
+      },
+      btnLoading: false
+    }
+  },
+  computed: {
+    modelMap(self) {
+      return self.delOrApr
+        ? {
+          'dialog-title': '同意理由',
+          'dialog-message': '请输入理由'
+        } : {
+          'dialog-title': '驳回理由',
+          'dialog-message': '请输入理由'
+        }
+    },
+    handleApi(self) {
+      return self.delOrApr ? 'student/handleApproveFree' : 'student/handleRejectStu'
     }
   },
   methods: {
-    open({ id }) {
+    open({ id }, delOrApr) {
+      this.delOrApr = delOrApr
       this.outerVisible = true
       this.form.id = id
     },
@@ -50,16 +72,20 @@ export default {
     },
     async handleReject(form) {
       await this.validForm(form)
-      this.$store.dispatch('student/handleRejectStu', this.form).then((res) => {
+      this.btnLoading = true
+      this.$store.dispatch(this.handleApi, this.form).then((res) => {
         this.$notify({
           title: '操作成功',
-          message: '已拒绝该学生的申请'
+          type: 'success'
         })
       }).catch((err) => {
         this.$notify.error({
           title: '操作失败',
-          message: err
+          message: err,
+          type: 'error'
         })
+      }).finally(() => {
+        this.btnLoading = false
       })
     }
   }

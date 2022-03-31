@@ -23,22 +23,26 @@ export default {
       },
       // 是否加载数据
       isFirstGetlist: true,
-      // 删除按钮的loading
-      deleLoading: false,
+
+      params: {},
       // 数据请求状态
       tableLoading: false,
-      params: {}
+      // 查询按钮的加载状态
+      // searchLoading: false,
+      // 导出按钮状态
+      // exportLoading: false,
+      // 删除按钮的loading
+      deleLoading: false
     }
   },
   methods: {
     getList() {
       const { size, current } = this.pagination
-      this.params = this.rebuildParams({ size, current })
+      const params = this.rebuildParams({ size, current })
       this.tableLoading = true
-      this.$store.dispatch(this.baseApi, this.params).then((res) => {
+      this.$store.dispatch(this.baseApi, params).then((res) => {
         const { size, total, records, current } = res.data
         this.list = records
-        console.log(this.list)
         this.pagination.total = total
         this.pagination.current = current
         this.pagination.size = size
@@ -49,7 +53,7 @@ export default {
       })
     },
     // 查找
-    onSearch(query) {
+    async onSearch(query, searchLoading) {
       console.log(query)
       if (query) {
         this.params = this.rebuildParams(query)
@@ -57,7 +61,8 @@ export default {
       this.size = this.pagination.pageSizeOptions[0]
       this.current = 1
       this.params = this.mergeParams()
-      this.getList()
+      await this.getList()
+      console.log(searchLoading)
     },
     // 导出
     onExport() {
@@ -131,7 +136,6 @@ export default {
     // 重新构建请求参数
     rebuildParams(curParams) {
       let par = this.params
-      console.log(this.listQuery)
       if (this.listQuery) {
         par = Object.assign(this.params, this.listQuery)
       }

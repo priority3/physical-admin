@@ -8,7 +8,11 @@
           <el-input v-model="listQuery.name" placeholder="请输入姓名..." clearable />
         </div>
         <div class="btn-box">
-          <selfButton type="primary" @btnClick="$refs[curtabTable].onSearch(listQuery)">查询</selfButton>
+          <self-button
+            v-model="searchLoading"
+            type="primary"
+            @btnClick="$refs[curtabTable].onSearch(listQuery, searchLoading)"
+          >查询</self-button>
           <el-button type="primary" @click="$refs[curtabTable].onExport()">导出</el-button>
           <el-button type="primary">导入</el-button>
         </div>
@@ -44,8 +48,8 @@ export default {
         userName: undefined
       },
       curtabTable: 'allTeacherInfo',
-      // 删除按钮状态
-      deleLoading: false,
+      searchLoading: false,
+
       // tabs
       tabspanel: [{
         'tab-name': '教师信息',
@@ -58,7 +62,6 @@ export default {
   },
   methods: {
     // 获取api信息 查询
-
   }
 }
 </script>

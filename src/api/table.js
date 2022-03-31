@@ -16,14 +16,11 @@ function getList(params) {
  *
  * @returns 获取老师信息列表数据
  */
-function getTeachInfo() {
+function getTeachInfo(params) {
   return request({
-    url: '/teacher/list',
+    url: '/teacherList',
     method: 'get',
-    params: {
-      current: 1,
-      size: 10
-    }
+    params
   })
 }
 
@@ -95,7 +92,10 @@ function handleDelUsedInfo(params) {
     params
   })
 }
-
+/**
+ * 获取学期列表
+ * @returns
+ */
 function handleGetSemester() {
   return request({
     url: '/semester',

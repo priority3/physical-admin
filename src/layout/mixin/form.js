@@ -66,7 +66,7 @@ export default {
       if (this.teacherList.length) return
       this.$store.dispatch('list/getTeachInfo').then((res) => {
         this.teacherList = res.records
-      }).catch((err) => {})
+      }).catch((_) => {})
     },
     // 更改学期下拉 更改学期信息
     handleGetSemester(e) {

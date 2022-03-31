@@ -38,10 +38,10 @@ const actions = {
     })
   },
   // 获取老师信息列表
-  getTeachInfo() {
+  getTeachInfo({ commit }, params) {
     return new Promise((resolve, reject) => {
-      getTeachInfo().then((res) => {
-        resolve(res.data)
+      getTeachInfo({ ...params }).then((res) => {
+        resolve(res)
       }).catch(() => {})
     })
   },

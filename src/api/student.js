@@ -8,7 +8,7 @@ import request from '@/utils/request'
  */
 const handleGetStuInfo = (params) => {
   return request({
-    url: '/student/studentList',
+    url: '/student/list',
     method: 'GET',
     params
   })
@@ -43,11 +43,11 @@ const handleDeleteFreeInfo = (params) => {
  * @param {学生id} params
  * @returns
  */
-const handleDeleteStuInfo = (params) => {
+const handleDeleteStuInfo = ({ userId }) => {
   return request({
-    url: '/student/deleteStudent',
+    url: '/student',
     method: 'delete',
-    params
+    params: { userId }
   })
 }
 
@@ -88,6 +88,11 @@ const handleRejectStu = (params) => {
   })
 }
 
+/**
+ * 接受预约
+ * @param {} params
+ * @returns
+ */
 const handleApproveFree = (params) => {
   return request({
     url: '/freeTest/agreeApplication',

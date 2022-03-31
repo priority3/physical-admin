@@ -99,7 +99,7 @@ export const constantRoutes = [
         path: '/manage-free',
         name: 'freeApprove',
         component: () => import('@/views/freeApprove/index'),
-        meta: { title: '免测管理', icon: 'tree' }
+        meta: { title: '免测管理', icon: 'el-icon-s-release' }
       }
     ]
   },
@@ -112,7 +112,7 @@ export const constantRoutes = [
         path: '/teacher-info',
         name: 'TeacherInfo',
         component: () => import('@/views/teacherInfo/index'),
-        meta: { title: '老师信息', icon: 'tree' }
+        meta: { title: '教师信息', icon: 'el-icon-s-open' }
       }
     ]
   },
@@ -125,7 +125,7 @@ export const constantRoutes = [
         path: 'info',
         name: 'Userinfo',
         component: () => import('@/views/userinfo/index'),
-        meta: { title: '个人信息', icon: 'form' }
+        meta: { title: '个人信息', icon: 'el-icon-s-custom' }
       }
     ]
   },

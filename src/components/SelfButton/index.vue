@@ -3,7 +3,7 @@
     :type="$attrs['type']"
     :loading="loading"
     :size="$attrs['size']"
-    btn-click-click="$emit('btnClick')"
+    @click="$emit('btnClick')"
   >
     <slot />
   </el-button>

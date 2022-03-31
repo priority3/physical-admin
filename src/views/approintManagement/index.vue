@@ -4,7 +4,7 @@
     <div>
       <div class="header-box">
         <div class="input-box">
-          <el-input v-model="listQuery.location" placeholder="请输入地点..." clearable />
+          <el-input v-model="listQuery.name" placeholder="请输入名称..." clearable />
           <el-date-picker
             v-model="listQuery.day"
             type="date"
@@ -66,7 +66,7 @@ export default {
   data() {
     return {
       listQuery: {
-        location: undefined,
+        name: undefined,
         day: undefined
       },
       baseApi: 'list/getList',

@@ -16,9 +16,14 @@ export default {
       },
       // 老师所有列表
       teacherList: [],
+      // 是否获取老师列表
+      isGetTeacher: false,
+      // 学期列表
+      semesterList: [],
+      // 是否获取学期
+      isGetSemester: false,
       // 选择的具体老师
       teacher: {},
-      //
       addForm: {
         name: '',
         day: '',
@@ -37,7 +42,6 @@ export default {
       this.state.visible = true
       // 将传过来的hour字符串改为时间格式
       const hour = getOriginDate(data.hour)
-      //
       // 浅拷贝 会造成form更改数据后 影响list当中的数据
       this.form = { ...data, teacher: data.teacherInfo.name, hour }
       // 获取老师列表信息
@@ -47,6 +51,10 @@ export default {
       if (date[0] instanceof Date && !isNaN(date[0].getTime())) {
         return date.map((item) => formatDate(item, 'HH:mm')).join('-')
       }
+    },
+    // 查看是否是事件格式
+    isDateFormat(date) {
+      return date instanceof Date && !isNaN(date.getTime())
     },
 
     // 打开新建窗口
@@ -62,9 +70,9 @@ export default {
     },
     // 更改学期下拉 更改学期信息
     handleGetSemester(e) {
-      this.form.semester = this.options.filter((item) => {
+      this.form.semester = this.semesterDataList?.filter((item) => {
         return item.value === e
-      })[0].label
+      })[0].label ?? ''
     },
 
     // 修改老师信息 对于id
@@ -73,13 +81,13 @@ export default {
     },
 
     // 更改学期下拉 更改学期信息
-    handleaddGetSemester(e) {
-      this.addForm.semester = this.options.filter((item) => {
+    handleAddGetSemester(e) {
+      this.addForm.semester = this.semesterDataList.filter((item) => {
         return item.value === e
       })[0].label
     },
     // 修改老师信息 对于id
-    handleaddChangeTeacher(e) {
+    handleAddChangeTeacher(e) {
       this.addForm.headid = e
     },
 
@@ -113,11 +121,22 @@ export default {
           })
         }
       })
-    }
+    },
 
+    // 获得学期列表
+    handleGetSemesterList() {
+      this.$store.dispatch('list/handleGetSemester').then((res) => {
+        this.semesterList = res.data
+      })
+    }
   },
   created() {
-    this.handleGetTeaList()
+    if (this.isGetTeacher) {
+      this.handleGetTeaList()
+    }
+    if (this.isGetSemester) {
+      this.handleGetSemesterList()
+    }
     // this.form = this.$store.getters.list[0]
     // console.log(this.form, this.$store.getters.list[0])
   }

@@ -9,90 +9,91 @@
             <el-input v-model="listQuery.name" placeholder="请输入姓名..." />
           </div>
           <div class="btn-box">
-            <el-button type="primary" @click="onSearch">查询</el-button>
+            <el-button type="primary" @click="$refs[curtabTable].onSearch(listQuery)">查询</el-button>
+          </div>
+          <div class="btn-box">
+            <el-button type="primary">导出{{ curtabName }}</el-button>
           </div>
         </div>
       </div>
-      <!-- 表格数据 -->
-      <el-table v-loading="tableLoading" :data="list" style="width: 100%;margin-top: 40px;">
-        <el-table-column prop="name" label="姓名" />
-        <el-table-column prop="userName" label="学号" />
-        <el-table-column prop="grade" label="年级" />
-        <el-table-column prop="specialty" label="专业" />
-        <el-table-column prop="schoolClass" label="班级" />
-        <el-table-column label="操作" width="250">
-          <div slot-scope="scope" class="btn-fun-box">
-            <el-button
-              type="primary"
-              size="small"
-              @click="$refs[FREE_DETAIL_INFO].open(scope.row)"
-            >详情</el-button>
-            <el-button
-              type="danger"
-              size="small"
-              :loading="deleLoading"
-              @click="$refs[FREE_REJECT].open(scope.row)"
-            >驳回申请</el-button>
-            <el-button type="success" size="small">通过</el-button>
-          </div>
-        </el-table-column>
-      </el-table>
-      <!-- 分页 -->
-      <pagination
-        :style="{ textAlign: 'right' }"
-        :total="pagination.total"
-        :current-page="pagination.current"
-        :page-sizes="pagination.pageSizeOptions"
-        @pagination="handlePaginationChanged"
-      />
     </div>
-    <detail :ref="FREE_DETAIL_INFO" />
-    <reject :ref="FREE_REJECT" />
+
+    <tabs v-model="curtabTable" :tabspanel="tabspanel">
+      <template slot="tab-content">
+        <component :is="curtabTable" :ref="curtabTable" :table-list-query="tableListQuery" />
+      </template>
+    </tabs>
   </div>
 </template>
 
 <script>
-import pagination from '@/components/Pagination/index.vue'
-import list from '@/layout/mixin/list.js'
-import { FREE_DETAIL_INFO, FREE_REJECT } from '@/constants'
+import tabs from '@/components/tabs'
+import { FREE_REJECT_APPROVE_MAP } from '@/constants/index.js'
 export default {
   name: 'FreeApprove',
   components: {
-    pagination,
-    detail: () => import('./detailInfo/index.vue'),
-    reject: () => import('./reject/index.vue')
+    tabs,
+    free_all_list: () => import('./freeAllList/index.vue'),
+    free_passed_list: () => import('./freePassedList/index.vue'),
+    free_not_pass_list: () => import('./freeNotPassList/index.vue'),
+    free_is_passing_list: () => import('./freeIsPassingList/index.vue')
   },
-  mixins: [list],
   data() {
     return {
       listQuery: {
         userName: undefined,
         name: undefined
       },
-      // store 请求
-      baseApi: 'student/handleGetFreeStuInfo',
-      deleteApi: 'list/handleDelUsedInfo',
-      curDialogname: 'detail',
-      // 手动请求
-      isFirstGetlist: false
 
+      curtabTable: 'free_all_list',
+      tabspanel: [{
+        'tab-name': '免测申请',
+        'tab-key': 'free_all_list'
+      }, {
+        'tab-name': '已通过',
+        'tab-key': 'free_passed_list'
+      }, {
+        'tab-name': '已驳回',
+        'tab-key': 'free_not_pass_list'
+      }, {
+        'tab-name': '审批中',
+        'tab-key': 'free_is_passing_list'
+      }]
     }
   },
   computed: {
-    FREE_DETAIL_INFO() {
-      return FREE_DETAIL_INFO
+    // params 请求参数
+    tableListQuery(self) {
+      return {
+        'isPass': FREE_REJECT_APPROVE_MAP[self.curtabTable]
+      }
     },
-    FREE_REJECT() {
-      return FREE_REJECT
+    tableExportQuery(self) {
+      return []
+    },
+    // 当前列表名字
+    curtabName(self) {
+      return self.tabspanel.find(item => item['tab-key'] === self.curtabTable)['tab-name'] ?? '导出当前表格'
     }
+
   },
   created() {
-    this.name = sessionStorage.getItem('name')
-    this.id = sessionStorage.getItem('id')
-    this.getList()
   },
   methods: {
-
+    // 同意免测
+    handleApproveFree({ id }) {
+      this.$store.dispatch('student/handleApproveFree', id).then((res) => {
+        this.$notify({
+          title: '操作成功',
+          message: '已同意免测申请'
+        })
+      }).catch((err) => {
+        this.$notify({
+          title: '操作失败',
+          message: err || '未知错误'
+        })
+      })
+    }
   }
 }
 </script>

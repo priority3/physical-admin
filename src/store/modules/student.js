@@ -5,7 +5,8 @@ import {
   handleDeleteStuInfo,
   handleExcelAllStu,
   handleExcelFreeStu,
-  handleRejectStu
+  handleRejectStu,
+  handleApproveFree
 } from '@/api/student'
 
 const state = {
@@ -70,6 +71,14 @@ const actions = {
   handleRejectStu({ commit }, params) {
     return new Promise((resolve, reject) => {
       handleRejectStu({ ...params }).then((res) => {
+        resolve(res)
+      }).catch(err => reject(err))
+    })
+  },
+  // 同意免测
+  handleApproveFree({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      handleApproveFree({ ...params }).then((res) => {
         resolve(res)
       }).catch(err => reject(err))
     })

@@ -34,13 +34,11 @@ export default {
     getList() {
       const { size, current } = this.pagination
       this.params = this.rebuildParams({ size, current })
-
       this.tableLoading = true
-      console.log(this.params)
       this.$store.dispatch(this.baseApi, this.params).then((res) => {
-        console.log(res)
         const { size, total, records, current } = res.data
         this.list = records
+        console.log(this.list)
         this.pagination.total = total
         this.pagination.current = current
         this.pagination.size = size
@@ -52,9 +50,12 @@ export default {
     },
     // 查找
     onSearch(query) {
+      console.log(query)
       if (query) {
         this.params = this.rebuildParams(query)
       }
+      this.size = this.pagination.pageSizeOptions[0]
+      this.current = 1
       this.params = this.mergeParams()
       this.getList()
     },
@@ -129,11 +130,23 @@ export default {
     },
     // 重新构建请求参数
     rebuildParams(curParams) {
-      return {
-        ...this.params,
+      let par = this.params
+      console.log(this.listQuery)
+      if (this.listQuery) {
+        par = Object.assign(this.params, this.listQuery)
+      }
+      par = {
+        ...par,
         ...curParams,
         id: this.id
       }
+      const newParams = {}
+      Object.keys(par).forEach((key) => {
+        if (par[key] !== undefined && par[key] !== '') {
+          newParams[key] = par[key]
+        }
+      })
+      return newParams
     }
 
   },

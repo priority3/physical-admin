@@ -6,7 +6,8 @@ import {
   handleExcelAllStu,
   handleExcelFreeStu,
   handleRejectStu,
-  handleApproveFree
+  handleApproveFree,
+  handleFixedStuInfo
 } from '@/api/student'
 
 const state = {
@@ -45,8 +46,9 @@ const actions = {
   },
   // 删除全体学生信息其中一个
   handleDeleteStuInfo({ commit }, params) {
+    const { id } = params
     return new Promise((resolve, reject) => {
-      handleDeleteStuInfo({ ...params }).then((res) => {
+      handleDeleteStuInfo({ userId: id }).then((res) => {
         resolve(res)
       }).catch(err => reject(err))
     })
@@ -79,6 +81,13 @@ const actions = {
   handleApproveFree({ commit }, params) {
     return new Promise((resolve, reject) => {
       handleApproveFree({ ...params }).then((res) => {
+        resolve(res)
+      }).catch(err => reject(err))
+    })
+  },
+  handleFixedStuInfo({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      handleFixedStuInfo({ ...params }).then((res) => {
         resolve(res)
       }).catch(err => reject(err))
     })

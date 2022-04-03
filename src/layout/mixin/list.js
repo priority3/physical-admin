@@ -65,9 +65,8 @@ export default {
       console.log(searchLoading)
     },
     // 导出
-    onExport() {
-      console.log(this.exportApi)
-      this.$store.dispatch(this.exportApi).then((res) => {
+    onExport(id) {
+      this.$store.dispatch(this.exportApi, { id }).then((res) => {
         this.$notify({
           title: '导出成功',
           message: '导出学生信息成功',
@@ -123,6 +122,10 @@ export default {
         }
         ).catch((err) => {
           console.log(err)
+          this.$notify({
+            type: 'warning',
+            message: '删除失败!'
+          })
         }).finally(() => {
           this.deleLoading = false
         })

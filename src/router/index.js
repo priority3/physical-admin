@@ -73,17 +73,21 @@ export const constantRoutes = [
       {
         path: 'user-appoint-detail',
         name: 'UserPointDetail',
-        component: () => import('@/views/UserPointDetail/index')
+        component: () => import('@/views/approintManagement/UserPointDetail/index')
       }
     ]
-  },
+  }
+
+]
+// 动态判断权限路由
+export const asyncRoutes = [
   {
     path: '/student',
     component: Layout,
-    redirect: '/',
+    meta: { roles: ['admin'] },
     children: [
       {
-        path: '/stu-info',
+        path: 'stu-info',
         name: 'StuInfo',
         component: () => import('@/views/stuInfo/index'),
         meta: { title: '学生信息', icon: 'tree' }
@@ -93,10 +97,10 @@ export const constantRoutes = [
   {
     path: '/free',
     component: Layout,
-    redirect: '/',
+    meta: { roles: ['admin'] },
     children: [
       {
-        path: '/manage-free',
+        path: 'manage-free',
         name: 'freeApprove',
         component: () => import('@/views/freeApprove/index'),
         meta: { title: '免测管理', icon: 'el-icon-s-release' }
@@ -106,10 +110,10 @@ export const constantRoutes = [
   {
     path: '/teacher',
     component: Layout,
-    redirect: '/',
+    meta: { roles: ['admin'] },
     children: [
       {
-        path: '/teacher-info',
+        path: 'teacher-info',
         name: 'TeacherInfo',
         component: () => import('@/views/teacherInfo/index'),
         meta: { title: '教师信息', icon: 'el-icon-s-open' }
@@ -129,11 +133,9 @@ export const constantRoutes = [
       }
     ]
   },
-
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
-
 const createRouter = () =>
   new Router({
     // mode: 'history', // require service support

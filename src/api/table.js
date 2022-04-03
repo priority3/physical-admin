@@ -23,6 +23,17 @@ function getTeachInfo(params) {
     params
   })
 }
+/**
+ * 修改老师信息
+ * @param {*} params
+ */
+function handleFixedTeacherInfo(data) {
+  return request({
+    url: '/teacher',
+    method: 'put',
+    data
+  })
+}
 
 function getDetail(params) {
   return request({
@@ -103,6 +114,14 @@ function handleGetSemester() {
   })
 }
 
+function exportListStuInfo(params) {
+  return request({
+    url: '/excel/downloadStudentListFormTest',
+    method: 'get',
+    params
+  })
+}
+
 export {
   getList,
   getDetail,
@@ -112,5 +131,7 @@ export {
   addAppiontInfo,
   getStudentListByInfo,
   handleDelUsedInfo,
-  handleGetSemester
+  handleGetSemester,
+  exportListStuInfo,
+  handleFixedTeacherInfo
 }

@@ -47,15 +47,20 @@
         <el-form-item label="地点" prop="location">
           <el-input v-model="form.location" placeholder="请输入内容" />
         </el-form-item>
-        <el-form-item label="负责人老师" prop="teacher">
-          <el-select v-model="form.teacher" placeholder="请选择" @change="handleChangeTeacher">
-            <el-option
-              v-for="item in teacherDataList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
+        <el-form-item label="负责人老师" :prop="isAdmin ? teacher : ''">
+          <div v-if="isAdmin">
+            <el-select v-model="addForm.teacher" placeholder="请选择" @change="handleAddChangeTeacher">
+              <el-option
+                v-for="item in teacherDataList"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </div>
+          <div v-else>
+            <el-input v-model="addForm.teacher" placeholder="请输入内容" disabled />
+          </div>
         </el-form-item>
         <el-form-item label="相关信息说明" prop="description">
           <el-input v-model="form.description" placeholder="请输入内容" />
@@ -117,14 +122,19 @@
           <el-input v-model="addForm.location" placeholder="请输入内容" />
         </el-form-item>
         <el-form-item label="负责人老师" prop="teacher">
-          <el-select v-model="addForm.teacher" placeholder="请选择" @change="handleAddChangeTeacher">
-            <el-option
-              v-for="item in teacherDataList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
+          <div v-if="isAdmin">
+            <el-select v-model="addForm.teacher" placeholder="请选择" @change="handleAddChangeTeacher">
+              <el-option
+                v-for="item in teacherDataList"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </div>
+          <div v-else>
+            <el-input v-model="addForm.teacher" placeholder="请输入内容" disabled />
+          </div>
         </el-form-item>
         <el-form-item label="预约人数" prop="store">
           <el-input v-model="addForm.store" placeholder="请输入内容" />
@@ -145,6 +155,7 @@
 import form from '@/layout/mixin/form.js'
 
 export default {
+
   mixins: [form],
   data() {
     // 自定义校验规则
@@ -192,7 +203,8 @@ export default {
       },
       num: 0,
       isGetTeacher: true,
-      isGetSemester: true
+      isGetSemester: true,
+      isAdmin: false
     }
   },
   computed: {
@@ -215,11 +227,21 @@ export default {
   },
 
   created() {
+    const { roles, name, headerId } = this.$store.getters
+    if (roles.includes('admin')) {
+      this.isAdmin = true
+    } else {
+      this.addForm.teacher = name
+      this.form.teacher = name
+      this.addForm.headid = headerId
+      this.form.headid = headerId
+    }
   },
   methods: {
 
     // 添加预约
     handleAddAppoint() {
+      console.log(this.addForm)
       this.$refs.dataForm.validate(valid => {
         if (valid) {
           this.addForm.hour = this.addForm.hour.join('-')

@@ -11,7 +11,27 @@ const getOriginDate = (date) => {
   return [new Date(yearArr[0], yearArr[1], yearArr[2], dateArr[0].split(':')[0], dateArr[0].split(':')[1], dateArr[0].split(':')[2]),
     new Date(yearArr[0], yearArr[1], yearArr[2], dateArr[1].split(':')[0], dateArr[1].split(':')[1], dateArr[1].split(':')[2])]
 }
+
+const getFormatHour = (date) => {
+  console.log(date)
+  if (Array.isArray(date)) {
+    return date.map((item) => {
+      if (!isNaN(Date.parse(item)) && isNaN(item)) {
+        formatDate(item, 'HH:mm:ss').join('-')
+      } else {
+        return item
+      }
+    })
+  } else {
+    if (!isNaN(Date.parse(date)) && isNaN(date)) {
+      return formatDate(date, 'HH:mm:ss').join('-')
+    } else {
+      return
+    }
+  }
+}
 export {
   formatDate,
-  getOriginDate
+  getOriginDate,
+  getFormatHour
 }

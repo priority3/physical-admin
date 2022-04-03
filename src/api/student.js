@@ -43,11 +43,11 @@ const handleDeleteFreeInfo = (params) => {
  * @param {学生id} params
  * @returns
  */
-const handleDeleteStuInfo = ({ userId }) => {
+const handleDeleteStuInfo = (params) => {
   return request({
     url: '/student',
     method: 'delete',
-    params: { userId }
+    params
   })
 }
 
@@ -101,6 +101,14 @@ const handleApproveFree = (params) => {
   })
 }
 
+const handleFixedStuInfo = (params) => {
+  return request({
+    url: '/student',
+    method: 'put',
+    data: params
+  })
+}
+
 export {
   handleGetStuInfo,
   handleGetFreeStuInfo,
@@ -109,5 +117,6 @@ export {
   handleExcelAllStu,
   handleExcelFreeStu,
   handleRejectStu,
-  handleApproveFree
+  handleApproveFree,
+  handleFixedStuInfo
 }

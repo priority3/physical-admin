@@ -1,4 +1,4 @@
-import { formatDate, getOriginDate } from '@/utils/formatDate'
+import { formatDate, getOriginDate, getFormatHour } from '@/utils/formatDate'
 export default {
   data() {
     return {
@@ -65,7 +65,7 @@ export default {
     handleGetTeaList() {
       if (this.teacherList.length) return
       this.$store.dispatch('list/getTeachInfo').then((res) => {
-        this.teacherList = res.records
+        this.teacherList = res.data
       }).catch((_) => {})
     },
     // 更改学期下拉 更改学期信息
@@ -96,9 +96,11 @@ export default {
       this.$refs.dataForm.validate(valid => {
         if (valid) {
           const { id, name, location, hour, orderNum, day, semester, headid, store } = this.form
+          // 需要对时间进行处理
           delete this.form.teacherInfo
+          const curHour = getFormatHour(hour)
           this.form = {
-            id, name, location, hour: hour.join('-'), store, orderNum, semester, headid,
+            id, name, location, hour: curHour.join('-'), store, orderNum, semester, headid,
             day
           }
           console.log(this.form)

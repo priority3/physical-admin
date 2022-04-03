@@ -70,20 +70,7 @@ export default {
         day: undefined
       },
       baseApi: 'list/getList',
-      deleteApi: 'list/delListItem',
-      options: [{
-        value: '选项1',
-        label: '第一学期'
-      }, {
-        value: '选项2',
-        label: '第二学期'
-      }, {
-        value: '选项3',
-        label: '第三学期'
-      }, {
-        value: '选项4',
-        label: '第四学期'
-      }]
+      deleteApi: 'list/delListItem'
     }
   },
   created() {
@@ -97,7 +84,7 @@ export default {
       sessionStorage.setItem('name', name)
       sessionStorage.setItem('id', id)
       this.$router.push({
-        path: `/appoint/user-appoint-detail`
+        path: `/appoint/user-appoint-detail?name=${name}&id=${id}`
       })
     }
 

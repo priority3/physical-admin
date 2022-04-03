@@ -6,7 +6,9 @@ import {
   addAppiontInfo,
   getStudentListByInfo,
   handleDelUsedInfo,
-  handleGetSemester
+  handleGetSemester,
+  exportListStuInfo,
+  handleFixedTeacherInfo
 } from '@/api/table'
 
 const state = {
@@ -43,6 +45,14 @@ const actions = {
       getTeachInfo({ ...params }).then((res) => {
         resolve(res)
       }).catch(() => {})
+    })
+  },
+  // 修改老师信息
+  handleFixedTeacherInfo({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      handleFixedTeacherInfo({ ...params }).then((res) => {
+        resolve(res)
+      }).catch((err) => reject(err))
     })
   },
   // 删除体测信息
@@ -93,6 +103,19 @@ const actions = {
       handleGetSemester().then((res) => {
         resolve(res)
       }).catch(err => reject(err))
+    })
+  },
+
+  // 根据体测id导出预约的学生列表
+  exportListStuInfo({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      exportListStuInfo({ ...params }).then((res) => {
+        console.log(res)
+        resolve(res)
+      }).catch(err => {
+        console.log(err)
+        reject(err)
+      })
     })
   }
 }

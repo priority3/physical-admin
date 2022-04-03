@@ -1,10 +1,5 @@
 <template>
-  <el-button
-    :type="$attrs['type']"
-    :loading="loading"
-    :size="$attrs['size']"
-    @click="$emit('btnClick')"
-  >
+  <el-button :type="$attrs['type']" :loading="loading" :size="$attrs['size']" @click="clickEvent">
     <slot />
   </el-button>
 </template>
@@ -15,9 +10,14 @@ export default {
     prop: 'loading',
     event: 'loading-change'
   },
+  props: {
+    loading: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
-      loading: false
     }
   },
 
@@ -30,12 +30,13 @@ export default {
     loadingStop() {
       this.loading = false
     },
-    click() {
+    clickEvent() {
+      this.$emit('btnClick')
       this.loadingStart()
       if (this.loading) {
         return
       }
-      this.$emit('loading-change', this.loadingStop)
+      this.$emit('loading-change', this.loadingStop())
     }
   }
 }

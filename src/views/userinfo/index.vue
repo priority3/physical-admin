@@ -4,7 +4,10 @@
       <el-col :span="8" :xs="24">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <user-card>hello 老师</user-card>
+            <user-card>
+              <div>hello</div>
+              <div>{{ $store.getters.name }}</div>
+            </user-card>
           </div>
           <div class="password-container">
             <el-form ref="form" :model="form" :rules="rules" label-width="80px">

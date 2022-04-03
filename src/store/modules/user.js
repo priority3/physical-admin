@@ -1,12 +1,14 @@
 import { login, logout, getInfo, updatePwd } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
-
+import { ROLES_MAP } from '@/constants'
 const getDefaultState = () => {
   return {
     token: getToken(),
     name: '',
-    avatar: ''
+    avatar: '',
+    roles: [],
+    headid: undefined
   }
 }
 
@@ -24,6 +26,12 @@ const mutations = {
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
+  },
+  SET_ROLES: (state, roles) => {
+    state.roles = roles
+  },
+  SET_HEADID: (state, headid) => {
+    state.headid = headid
   }
 }
 
@@ -48,15 +56,15 @@ const actions = {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
         const { data } = response
-
         if (!data) {
           return reject('Verification failed, please Login again.')
         }
-
-        const { name, avatar } = data
-
+        const { name, identity, id } = data
+        console.log(data)
         commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
+        commit('SET_ROLES', [ROLES_MAP[identity]])
+        commit('SET_HEADID', id)
+        // commit('SET_AVATAR', avatar)
         resolve(data)
       }).catch(error => {
         reject(error)

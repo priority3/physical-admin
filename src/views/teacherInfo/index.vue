@@ -4,8 +4,8 @@
     <div>
       <div class="header-box">
         <div class="input-box">
-          <el-input v-model="listQuery.userName" placeholder="请输入学号..." clearable />
-          <el-input v-model="listQuery.name" placeholder="请输入姓名..." clearable />
+          <el-input v-model="listQuery.name" placeholder="请输入学工号..." clearable />
+          <el-input v-model="listQuery.userName" placeholder="请输入姓名..." clearable />
         </div>
         <div class="btn-box">
           <self-button

@@ -18,3 +18,8 @@ export const TABLE_INGO_MAP = {
   'college': 'USER_COLLEGE'
 }
 
+// 权限名称
+export const ROLES_MAP = {
+  '管理员': 'admin',
+  '老师': 'teacher'
+}

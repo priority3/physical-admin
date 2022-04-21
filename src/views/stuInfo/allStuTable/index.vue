@@ -16,7 +16,7 @@
           <el-switch v-model="scope.row.identity" :disabled="identifyLoading" @change="handleIdentity(scope.row)" />
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="200">
+      <el-table-column label="操作" width="150">
         <template slot-scope="scope">
           <el-button size="small" type="danger" @click="deleteListItem(scope.row)">删除</el-button>
           <el-button size="small" type="success" @click="fixedInfo(scope.row)">编辑</el-button>

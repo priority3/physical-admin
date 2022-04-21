@@ -32,7 +32,7 @@ export default {
     },
     clickEvent() {
       this.$emit('btnClick')
-      this.loadingStart()
+
       if (this.loading) {
         return
       }

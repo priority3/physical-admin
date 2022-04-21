@@ -14,21 +14,9 @@ const getOriginDate = (date) => {
 
 const getFormatHour = (date) => {
   console.log(date)
-  if (Array.isArray(date)) {
-    return date.map((item) => {
-      if (!isNaN(Date.parse(item)) && isNaN(item)) {
-        formatDate(item, 'HH:mm:ss').join('-')
-      } else {
-        return item
-      }
-    })
-  } else {
-    if (!isNaN(Date.parse(date)) && isNaN(date)) {
-      return formatDate(date, 'HH:mm:ss').join('-')
-    } else {
-      return
-    }
-  }
+  return date.map((item) => {
+    return formatDate(item, 'HH:mm:ss')
+  }).join('-')
 }
 export {
   formatDate,

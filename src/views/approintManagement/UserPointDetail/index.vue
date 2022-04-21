@@ -6,23 +6,22 @@
       <div>
         <div class="header-box">
           <div class="input-box">
-            <el-input v-model="listQuery.userName" placeholder="请输入学号..." />
+            <el-input v-model="listQuery.specialtyClass" placeholder="请输入专业班级..." />
             <el-input v-model="listQuery.name" placeholder="请输入姓名..." />
           </div>
           <div class="btn-box">
             <el-button type="primary" @click="onSearch">查询</el-button>
-            <el-button type="primary" @click="onExport(id)">导出</el-button>
+            <el-button type="primary" @click="onExport({ id }, `${name}预约学生`)">导出</el-button>
           </div>
         </div>
       </div>
       <!-- 表格数据 -->
       <el-table v-loading="tableLoading" :data="dataList" style="width: 100%;margin-top: 40px;">
         <el-table-column prop="name" label="姓名" />
-        <el-table-column prop="userName" label="学号" />
         <el-table-column prop="grade" label="年级" />
-        <el-table-column prop="specialty" label="专业" />
+        <el-table-column prop="specialtyClass" label="专业班级" />
 
-        <el-table-column prop="schoolClass" label="班级" />
+        <el-table-column prop="phone" label="联系方式" />
         <el-table-column label="操作">
           <div slot-scope="scope" class="btn-fun-box">
             <self-button type="danger" size="small" @btnClick="deleteListItem(scope.row)">删除</self-button>
@@ -30,13 +29,9 @@
         </el-table-column>
       </el-table>
       <!-- 分页 -->
-      <pagination
-        :style="{ textAlign: 'right' }"
-        :total="pagination.total"
-        :current-page="pagination.current"
-        :page-sizes="pagination.pageSizeOptions"
-        @pagination="handlePaginationChanged"
-      />
+      <pagination :style="{ textAlign: 'right' }" :total="pagination.total" :size="pagination.size"
+        :current-page="pagination.current" :page-sizes="pagination.pageSizeOptions"
+        @pagination="handlePaginationChanged" />
       <el-dialog title="添加学生" :visible.sync="dialogVisible" width="30%">
         <el-form ref="addForm" :model="addForm" label-width="80px" :rules="fixedRules">
           <el-form-item label="姓名" prop="name">
@@ -129,7 +124,7 @@ export default {
       return self.list.map((item) => {
         return {
           ...item,
-          id: item['testId']
+          id: item['testUserId']
         }
       })
     }
@@ -166,14 +161,17 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/styles/tableHeader.scss";
+
 .btn-box {
   margin-left: 20px;
 }
+
 // 修改 在移动端下 按钮 上下不对成的样式问题
 @media screen and (max-width: 768px) {
   .btn-box {
     margin-left: 0;
   }
+
   .app-container {
     .cell {
       .el-button {
@@ -181,10 +179,12 @@ export default {
       }
     }
   }
+
   .btn-fun-box {
     gap: 10px;
   }
 }
+
 @media screen and (max-width: 1134px) {
   .btn-fun-box {
     flex-direction: column;
@@ -192,10 +192,12 @@ export default {
     text-align: center;
     gap: 10px;
   }
-  .btn-fun-box .el-button + .el-button {
+
+  .btn-fun-box .el-button+.el-button {
     margin-left: 0;
   }
 }
+
 .btn-fun-box {
   display: flex;
   flex-wrap: wrap;

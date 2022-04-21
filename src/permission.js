@@ -10,7 +10,7 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const whiteList = ['/login'] // no redirect whitelist
 
-router.beforeEach(async(to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   // start progress bar
   NProgress.start()
   // set page title
@@ -32,6 +32,9 @@ router.beforeEach(async(to, from, next) => {
           // await store.dispatch('user/getInfo')
           const { identity } = await store.dispatch('user/getInfo')
           const roles = [ROLES_MAP[identity]]
+          if (roles === 'student') {
+            throw new Error('暂无权限')
+          }
           const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
           // router.options.routes = router.options.routes.cancat(accessRoutes)
           // console.log(tt)
@@ -39,7 +42,6 @@ router.beforeEach(async(to, from, next) => {
           // router.options.routes = tt
           // console.log(router)
           router.addRoutes(accessRoutes)
-          console.log(to)
           next({ ...to, replace: true })
         } catch (error) {
           // remove token and go to login page to re-login

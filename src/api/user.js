@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: '/user/login',
+    url: '/user/loginAdmin',
     method: 'post',
     data
   })
@@ -29,7 +29,7 @@ export function logout() {
  */
 export function updatePwd(data) {
   return request({
-    url: '/student/updateStuPwd',
+    url: '/user/updatePwd',
     method: 'put',
     data
   })

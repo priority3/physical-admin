@@ -1,61 +1,31 @@
 <template>
   <div>
     <!-- 详情 -->
-    <el-drawer
-      :title="form.name"
-      :visible.sync="state.visible"
-      custom-class="drawer"
-      class="drawer"
-      :size="size"
-    >
-      <el-form
-        ref="dataForm"
-        :rules="fixedRules"
-        :model="form"
-        label-width="100px"
-        label-position="left"
-      >
+    <el-drawer :title="form.name" :visible.sync="state.visible" custom-class="drawer" class="drawer" :size="size">
+      <el-form ref="dataForm" :rules="fixedRules" :model="form" label-width="100px" label-position="left">
+        <el-form-item label="体测名称" prop="name">
+          <el-input v-model="form.name" placeholder="请输入内容" />
+        </el-form-item>
         <el-form-item label="日期" prop="day">
-          <el-date-picker
-            v-model="form.day"
-            type="date"
-            placeholder="选择日期"
-            value-format="yyyy-MM-dd"
-          />
+          <el-date-picker v-model="form.day" type="date" placeholder="选择日期" value-format="yyyy-MM-dd" />
         </el-form-item>
         <el-form-item label="具体时间" prop="hour">
-          <el-time-picker
-            v-model="form.hour"
-            is-range
-            range-separator="至"
-            start-placeholder="开始时间"
-            end-placeholder="结束时间"
-            placeholder="选择时间范围"
-            value-format="HH:mm:ss"
-          />
+          <el-time-picker v-model="form.hour" is-range range-separator="至" start-placeholder="开始时间"
+            end-placeholder="结束时间" placeholder="选择时间范围" format="HH:mm:ss" value-format="HH:mm:ss"
+            @change="setCurrentTime" />
         </el-form-item>
         <el-form-item label="学期" prop="semester">
           <el-select v-model="form.semester" placeholder="请选择" @change="handleGetSemester">
-            <el-option
-              v-for="item in semesterDataList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
+            <el-option v-for="item in semesterDataList" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
         <el-form-item label="地点" prop="location">
           <el-input v-model="form.location" placeholder="请输入内容" />
         </el-form-item>
-        <el-form-item label="负责人老师" :prop="isAdmin ? teacher : ''">
+        <el-form-item label="负责人老师">
           <div v-if="isAdmin">
-            <el-select v-model="addForm.teacher" placeholder="请选择" @change="handleAddChangeTeacher">
-              <el-option
-                v-for="item in teacherDataList"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
+            <el-select v-model="form.teacher" placeholder="请选择" @change="handleChangeTeacher">
+              <el-option v-for="item in teacherDataList" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </div>
           <div v-else>
@@ -65,10 +35,10 @@
         <el-form-item label="相关信息说明" prop="description">
           <el-input v-model="form.description" placeholder="请输入内容" />
         </el-form-item>
-        <el-form-item label="预约人数">
+        <el-form-item label="预约班级数">
           <el-tag type="warning">{{ form.orderNum }} / {{ form.store }}</el-tag>
         </el-form-item>
-        <el-form-item label="预约人数" prop="store">
+        <el-form-item label="预约班级数" prop="store">
           <el-input v-model="form.store" placeholder="请输入内容" />
         </el-form-item>
         <el-form-item>
@@ -79,43 +49,20 @@
 
     <!-- 弹出框添加 -->
     <el-dialog title="新建体测预约" :visible.sync="state.dialogFormVisible">
-      <el-form
-        ref="dataForm"
-        :rules="fixedRules"
-        :model="addForm"
-        label-width="100px"
-        label-position="left"
-      >
+      <el-form ref="dataForm" :rules="fixedRules" :model="addForm" label-width="100px" label-position="left">
         <el-form-item label="体测名称" prop="name">
           <el-input v-model="addForm.name" placeholder="请输入内容" />
         </el-form-item>
         <el-form-item label="体测日期" prop="day">
-          <el-date-picker
-            v-model="addForm.day"
-            type="date"
-            placeholder="选择日期"
-            value-format="yyyy-MM-dd"
-          />
+          <el-date-picker v-model="addForm.day" type="date" placeholder="选择日期" value-format="yyyy-MM-dd" />
         </el-form-item>
         <el-form-item label="具体时间" prop="hour">
-          <el-time-picker
-            v-model="addForm.hour"
-            is-range
-            range-separator="至"
-            start-placeholder="开始时间"
-            end-placeholder="结束时间"
-            placeholder="选择时间范围"
-            value-format="HH:mm:ss"
-          />
+          <el-time-picker v-model="addForm.hour" is-range range-separator="至" start-placeholder="开始时间"
+            end-placeholder="结束时间" placeholder="选择时间范围" value-format="HH:mm:ss" />
         </el-form-item>
         <el-form-item label="学期" prop="semester">
           <el-select v-model="addForm.semester" placeholder="请选择" @change="handleAddGetSemester">
-            <el-option
-              v-for="item in semesterDataList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
+            <el-option v-for="item in semesterDataList" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
         <el-form-item label="地点" prop="location">
@@ -124,19 +71,14 @@
         <el-form-item label="负责人老师" prop="teacher">
           <div v-if="isAdmin">
             <el-select v-model="addForm.teacher" placeholder="请选择" @change="handleAddChangeTeacher">
-              <el-option
-                v-for="item in teacherDataList"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
+              <el-option v-for="item in teacherDataList" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </div>
           <div v-else>
             <el-input v-model="addForm.teacher" placeholder="请输入内容" disabled />
           </div>
         </el-form-item>
-        <el-form-item label="预约人数" prop="store">
+        <el-form-item label="预约班级数" prop="store">
           <el-input v-model="addForm.store" placeholder="请输入内容" />
         </el-form-item>
         <el-form-item label="相关信息说明" prop="description">
@@ -176,8 +118,7 @@ export default {
 
       fixedRules: {
         name: [
-          { required: true, message: '请输入体测名称', trigger: 'blur' },
-          { min: 2, max: 10, message: '名称长度3到10个字符', trigger: 'blur' }
+          { required: true, message: '请输入体测名称', trigger: 'blur' }
         ],
         day: [
           { required: true, message: '请选择体测日期', trigger: 'blur' }
@@ -280,6 +221,7 @@ export default {
     width: 100%;
   }
 }
+
 // .el-drawer.rtl {
 //         overflow: scroll
 //     }

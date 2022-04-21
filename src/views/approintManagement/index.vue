@@ -5,12 +5,10 @@
       <div class="header-box">
         <div class="input-box">
           <el-input v-model="listQuery.name" placeholder="请输入名称..." clearable />
-          <el-date-picker
-            v-model="listQuery.day"
-            type="date"
-            placeholder="选择日期"
-            value-format="yyyy-MM-dd"
-          />
+          <el-date-picker v-model="listQuery.day" type="date" placeholder="选择日期" value-format="yyyy-MM-dd" />
+          <el-select v-model="listQuery.semester" placeholder="选择学期" clearable>
+            <el-option v-for="item in semesterDataList" :key="item.value" :label="item.label" :value="item.label" />
+          </el-select>
         </div>
         <div class="btn-box">
           <el-button type="primary" @click="onSearch">查询</el-button>
@@ -30,24 +28,14 @@
         <div slot-scope="scope" class="btn-fun-box">
           <el-button type="success" size="small" @click="$refs.form.open(scope.row)">编辑</el-button>
           <el-button type="success" size="small" @click="openUserInfo(scope.row)">预约列表</el-button>
-          <el-button
-            type="danger"
-            size="small"
-            :loading="deleLoading"
-            @click="deleteListItem(scope.row)"
-          >删除</el-button>
+          <el-button type="danger" size="small" :loading="deleLoading" @click="deleteListItem(scope.row)">删除</el-button>
         </div>
       </el-table-column>
     </el-table>
 
-    <pagination
-      :style="{ textAlign: 'right' }"
-      :total="pagination.total"
-      :size="pagination.size"
-      :current-page="pagination.current"
-      :page-sizes="pagination.pageSizeOptions"
-      @pagination="handlePaginationChanged"
-    />
+    <pagination :style="{ textAlign: 'right' }" :total="pagination.total" :size="pagination.size"
+      :current-page="pagination.current" :page-sizes="pagination.pageSizeOptions"
+      @pagination="handlePaginationChanged" />
     <detail-form ref="form" @complete="getList" />
   </div>
 </template>
@@ -67,13 +55,26 @@ export default {
     return {
       listQuery: {
         name: undefined,
-        day: undefined
+        day: undefined,
+        semester: undefined
       },
       baseApi: 'list/getList',
-      deleteApi: 'list/delListItem'
+      deleteApi: 'list/delListItem',
+      semesterList: []
+    }
+  },
+  computed: {
+    semesterDataList(self) {
+      return self.semesterList?.map((item, index) => {
+        return {
+          value: index,
+          label: item
+        }
+      }) ?? []
     }
   },
   created() {
+    this.handleGetSemesterList()
   },
   methods: {
     // 打开预约列表
@@ -84,7 +85,13 @@ export default {
       sessionStorage.setItem('name', name)
       sessionStorage.setItem('id', id)
       this.$router.push({
-        path: `/appoint/user-appoint-detail?name=${name}&id=${id}`
+        path: `/appoint-detail/user-appoint-detail?name=${name}&id=${id}`
+      })
+    },
+    // 获得学期列表
+    handleGetSemesterList() {
+      this.$store.dispatch('list/handleGetSemester').then((res) => {
+        this.semesterList = res.data
       })
     }
 
@@ -104,23 +111,28 @@ export default {
       }
     }
   }
+
   .btn-fun-box {
     gap: 10px;
   }
 }
+
 @media screen and (max-width: 1134px) {
   .btn-fun-box {
     flex-direction: column;
     justify-content: center;
     gap: 10px;
+
     .el-button {
       width: 30%;
     }
   }
-  .btn-fun-box .el-button + .el-button {
+
+  .btn-fun-box .el-button+.el-button {
     margin-left: 0;
   }
 }
+
 .btn-fun-box {
   display: flex;
   flex-wrap: wrap;

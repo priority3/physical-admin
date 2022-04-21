@@ -6,11 +6,11 @@ import request from '@/utils/request'
  * @param {分页参数、可选的查询参数} params
  * @returns
  */
-const handleGetStuInfo = (params) => {
+const handleGetStuInfo = params => {
   return request({
     url: '/student/list',
     method: 'GET',
-    params
+    params,
   })
 }
 
@@ -19,11 +19,11 @@ const handleGetStuInfo = (params) => {
  * @param {分页参数、可选的查询参数} params
  * @returns
  */
-const handleGetFreeStuInfo = (params) => {
+const handleGetFreeStuInfo = params => {
   return request({
     url: '/freeTest/list',
     method: 'GET',
-    params
+    params,
   })
 }
 /**
@@ -31,11 +31,11 @@ const handleGetFreeStuInfo = (params) => {
  * @param {免测学生id} params
  * @returns
  */
-const handleDeleteFreeInfo = (params) => {
+const handleDeleteFreeInfo = params => {
   return request({
     url: '/freeTest/delete',
     method: 'delete',
-    params
+    params,
   })
 }
 /**
@@ -43,11 +43,11 @@ const handleDeleteFreeInfo = (params) => {
  * @param {学生id} params
  * @returns
  */
-const handleDeleteStuInfo = (params) => {
+const handleDeleteStuInfo = params => {
   return request({
     url: '/student',
     method: 'delete',
-    params
+    params,
   })
 }
 
@@ -59,7 +59,8 @@ const handleDeleteStuInfo = (params) => {
 const handleExcelAllStu = () => {
   return request({
     url: '/excel/downloadStudentList',
-    method: 'get'
+    method: 'get',
+    responseType: 'arraybuffer',
   })
 }
 
@@ -71,7 +72,7 @@ const handleExcelAllStu = () => {
 const handleExcelFreeStu = () => {
   return request({
     url: '/excel/downloadFreeTestStudent',
-    method: 'get'
+    method: 'get',
   })
 }
 
@@ -80,11 +81,11 @@ const handleExcelFreeStu = () => {
  * @param {拒绝理由，id} params
  * @returns
  */
-const handleRejectStu = (params) => {
+const handleRejectStu = params => {
   return request({
     url: '/freeTest/rejectApplication',
     method: 'post',
-    data: params
+    data: params,
   })
 }
 
@@ -93,24 +94,97 @@ const handleRejectStu = (params) => {
  * @param {} params
  * @returns
  */
-const handleApproveFree = (params) => {
+const handleApproveFree = params => {
   return request({
     url: '/freeTest/agreeApplication',
     method: 'put',
-    data: params
+    data: params,
   })
 }
 
-const handleFixedStuInfo = (params) => {
+/**
+ * 修改学生信息
+ * @param {*} params
+ * @returns
+ */
+const handleFixedStuInfo = params => {
   return request({
     url: '/student',
     method: 'put',
-    data: params
+    data: params,
   })
 }
 
+/**
+ * 添加学生信息
+ * @param {*} params
+ * @returns
+ */
+const handleAddStuInfo = params => {
+  return request({
+    url: '/student',
+    method: 'post',
+    data: params,
+  })
+}
+
+/**
+ * 学生示例下载
+ * @param {*} params
+ * @returns
+ */
+const exampleExcelStu = params => {
+  return request({
+    url: '/excel/downloadStudentTemplate',
+    method: 'get',
+    responseType: 'arraybuffer',
+  })
+}
+/**
+ * 导出学生列表信息
+ * @param {*} params
+ * @returns
+ */
+const handlePostExcelStu = params => {
+  return request({
+    url: '/excel/uploadStudentList',
+    method: 'post',
+    data: params,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  })
+}
+
+/**
+ * 导出免测学生列表
+ * @param {} params
+ * @returns
+ */
+const handlePostExcelFreeStu = params => {
+  return request({
+    url: '/excel/downloadFreeTestStudent',
+    method: 'get',
+    params,
+    responseType: 'arraybuffer',
+  })
+}
+
+/**
+ * 获取班长、有权限预约学生列表
+ * @param {*} params
+ * @returns
+ */
+const handleAuthStuInfo = params => {
+  return request({
+    url: '/student/monitor/list',
+    method: 'get',
+    params,
+  })
+}
 export {
   handleGetStuInfo,
+  handleAuthStuInfo,
   handleGetFreeStuInfo,
   handleDeleteFreeInfo,
   handleDeleteStuInfo,
@@ -118,5 +192,9 @@ export {
   handleExcelFreeStu,
   handleRejectStu,
   handleApproveFree,
-  handleFixedStuInfo
+  handleFixedStuInfo,
+  handleAddStuInfo,
+  exampleExcelStu,
+  handlePostExcelStu,
+  handlePostExcelFreeStu,
 }

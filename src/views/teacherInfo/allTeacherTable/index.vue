@@ -6,7 +6,7 @@
       <el-table-column prop="college" label="学院" />
       <el-table-column prop="sex" label="性别" />
       <el-table-column prop="phone" label="联系方式" />
-      <el-table-column fixed="right" label="操作">
+      <el-table-column width="150" label="操作">
         <template slot-scope="scope">
           <el-button size="small" type="danger" @click="deleteListItem(scope.row)">删除</el-button>
           <el-button size="small" type="success" @click="fixedInfo(scope.row)">编辑</el-button>

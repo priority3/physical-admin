@@ -8,9 +8,10 @@
           <el-input v-model="listQuery.name" placeholder="请输入姓名..." clearable />
         </div>
         <div class="btn-box">
-          <selfButton type="primary" @btnClick="$refs[curtabTable].onSearch(listQuery)">查询</selfButton>
-          <el-button type="primary" @click="$refs[curtabTable].onExport()">导出</el-button>
-          <el-button type="primary">导入</el-button>
+          <el-button type="primary" @click="$refs[curtabTable].onSearch(listQuery)">查询</el-button>
+          <el-button type="primary" @click="$refs[curtabTable].onExport(undefined, '学生信息')">导出</el-button>
+          <el-button type="primary" @click="$refs['excelDailog'].showDialog()">导入</el-button>
+          <el-button type="primary" @click="$refs[curtabTable].showAddDialog()">添加</el-button>
         </div>
       </div>
     </div>
@@ -19,13 +20,21 @@
         <component :is="curtabTable" :ref="curtabTable" />
       </template>
     </tabs>
-    <!-- 分页 -->
+
+    <excel-import ref="excelDailog" :example-url="exampleUrl" :upload-url="uploadUrl"
+      @complete="$refs[curtabTable].getList()" />
   </div>
 </template>
-
+<!-- :example-url="`${baseApi}/downloadExample`"
+        :upload-url="`${baseApi}/upload`"
+        :preview-url="`${baseApi}/preview`"
+        :preview-save-url="`${baseApi}/previewSave`"
+        :fields-required="fieldsRequired"
+        @finishedUpload="handleFinishedUpload" -->
 <script>
 import pagination from '@/components/Pagination/index.vue'
 import selfButton from '@/components/SelfButton/index.vue'
+import ExcelImport from '@/components/ExcelImport/index.vue'
 import tabs from '@/components/tabs'
 // import { formatDate } from '@/utils/formatDate'
 export default {
@@ -34,8 +43,10 @@ export default {
     pagination,
     tabs,
     selfButton,
+    ExcelImport,
     // 切换组件
-    allStuTable: () => import('./allStuTable/index.vue')
+    allStuTable: () => import('./allStuTable/index.vue'),
+    authStuTable: () => import('./authStuTable/index.vue')
   },
   data() {
     return {
@@ -50,14 +61,27 @@ export default {
       tabspanel: [{
         'tab-name': '所有学生',
         'tab-key': 'allStuTable'
-      }]
+      }, {
+        'tab-name': '预约权限学生',
+        'tab-key': 'authStuTable'
+      }],
+      // 上传dialog
+      uploadVisible: false,
+      addForm: {},
+      baseURL: process.env.VUE_APP_BASE_API,
+      // curExportLoading: false
+      // 示例接口
+      exampleUrl: 'student/exampleExcelStu',
+      uploadUrl: 'student/handlePostExcelStu'
+
     }
   },
-  computed: {},
+  computed: {
+
+  },
   created() {
   },
   methods: {
-    // 获取api信息 查询
 
   }
 }
@@ -65,6 +89,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/styles/tableHeader.scss";
+
 .btn-box {
   margin-left: 20px;
 }
@@ -74,6 +99,7 @@ export default {
   .btn-box {
     margin-left: 0;
   }
+
   .app-container {
     .cell {
       .el-button {
@@ -81,10 +107,12 @@ export default {
       }
     }
   }
+
   .btn-fun-box {
     gap: 10px;
   }
 }
+
 @media screen and (max-width: 1134px) {
   .btn-fun-box {
     flex-direction: column;
@@ -92,10 +120,12 @@ export default {
     text-align: center;
     gap: 10px;
   }
-  .btn-fun-box .el-button + .el-button {
+
+  .btn-fun-box .el-button+.el-button {
     margin-left: 0;
   }
 }
+
 .btn-fun-box {
   display: flex;
   flex-wrap: wrap;

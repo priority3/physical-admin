@@ -1,92 +1,126 @@
 <template>
   <div>
     <!-- 表格数据 -->
-    <el-table v-loading="tableLoading" :data="tableList" style="width: 100%;margin-top: 40px;">
+    <el-table v-loading="tableLoading" :data="dataList" style="width: 100%;margin-top: 40px;">
       <el-table-column prop="name" label="姓名" />
-      <el-table-column prop="userName" label="学号" />
       <el-table-column prop="grade" label="年级" />
-      <el-table-column prop="specialty" label="专业" />
-      <el-table-column prop="schoolClass" label="班级" />
+      <el-table-column prop="specialtyClass" label="专业班级" />
+      <el-table-column prop="userName" label="学号" />
+      <el-table-column prop="sex" label="性别" />
+      <el-table-column prop="nationality" label="名族代码" />
+      <el-table-column prop="birth" label="出生日期" />
+      <el-table-column prop="idCard" label="身份证号" />
+      <el-table-column prop="semester" label="申请学期" />
+      <el-table-column prop="isPass" label="审核状态">
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.curTag" disable-transitions>{{ scope.row.isPass }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" width="250">
         <div slot-scope="scope" class="btn-fun-box">
-          <el-button type="primary" size="small" @click="dialogVisible = true">详情</el-button>
-          <el-button
-            type="danger"
-            size="small"
-            :loading="item.rejectLoading"
-            @click="$refs['dialogApply'].open(scope.row, 0)"
-          >驳回申请</el-button>
-          <el-button
-            type="success"
-            size="small"
-            :loading="item.approveLoading"
-            @click="$refs['dialogApply'].open(scope.row, 1)"
-          >通过</el-button>
+          <el-button size="small" type="primary" @click="$refs['detail'].open(scope.row)">详情</el-button>
+          <el-button size="small" type="danger" :loading="deleLoading" @click="deleteListItem(scope.row)">删除申请
+          </el-button>
         </div>
       </el-table-column>
     </el-table>
     <!-- 分页 -->
-    <pagination
-      :style="{ textAlign: 'right' }"
-      :total="pagination.total"
-      :size="pagination.size"
-      :current-page="pagination.current"
-      :page-sizes="pagination.pageSizeOptions"
-      @pagination="handlePaginationChanged"
-    />
-    <el-dialog title="用户信息" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
-      <el-descriptions>
-        <el-descriptions-item label="用户名">kooriookami</el-descriptions-item>
-        <el-descriptions-item label="手机号">18100000000</el-descriptions-item>
-        <el-descriptions-item label="居住地">苏州市</el-descriptions-item>
-        <el-descriptions-item label="备注">
-          <el-tag size="small">学校</el-tag>
-        </el-descriptions-item>
-        <el-descriptions-item label="联系地址">江苏省苏州市吴中区吴中大道 1188 号</el-descriptions-item>
-      </el-descriptions>
-    </el-dialog>
-    <reject-rpprove ref="dialogApply" />
+    <pagination :style="{ textAlign: 'right' }" :total="pagination.total" :size="pagination.size"
+      :current-page="pagination.current" :page-sizes="pagination.pageSizeOptions"
+      @pagination="handlePaginationChanged" />
+    <detail-info ref="detail" />
   </div>
 </template>
 
 <script>
 import list from '@/layout/mixin/list'
 import pagination from '@/components/Pagination/index.vue'
-import rejectRpprove from './reject-approve'
+import detailInfo from '../components/detailInfo'
 export default {
   components: {
     pagination,
-    rejectRpprove
+    detailInfo
   },
+
   mixins: [list],
   props: {
 
   },
   data() {
     return {
-      baseApi: 'student/handleGetFreeStuInfo'
+      baseApi: 'student/handleGetFreeStuInfo',
+      exportApi: 'student/handlePostExcelFreeStu',
+      deleteApi: 'student/handleDeleteFreeInfo',
+      dialogVisible: false,
+      baseURL: process.env.VUE_APP_BASE_API + '/images',
+      curList: []
+      // 请求参数type
     }
   },
   computed: {
-    tableList(self) {
+    dataList(self) {
       return self.list?.map((item) => {
+        let curIspass = ''
+        let curTag = ''
+        switch (item.isPass) {
+          case '0': {
+            curIspass = '审核中'
+            curTag = 'warning'
+            break
+          }
+          case '1': {
+            curIspass = '已通过'
+            curTag = 'success'
+            break
+          }
+          case '2': {
+            curIspass = '已驳回'
+            curTag = 'danger'
+            break
+          }
+          default:
+            break
+        }
         return {
-          ...item
+          ...item,
+          isPass: curIspass,
+          curTag
         }
       })
     },
     listQuery(self) {
-      return self.$attrs['table-list-query']
+      return {
+        ...self.$attrs['table-list-query']
+      }
+    },
+    isImages(self) {
+      return self.curList.images.length > 0
     }
   },
   methods: {
     // 驳回申请
     rejectFreeInfo() {
 
+    },
+    showDetail(data) {
+      this.dialogVisible = true
+      this.curList = data
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
+.detail-images-container {
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .detail-images-container {
+    display: flex;
+    flex-direction: column;
+  }
+}
 </style>

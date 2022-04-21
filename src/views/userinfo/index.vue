@@ -107,8 +107,8 @@ export default {
           })
         }).catch((err) => {
           this.$message({
-            message: '密码修改失败',
-            type: err || 'error'
+            message: err || '密码修改失败',
+            type: 'error'
           })
         })
       }).catch(() => {

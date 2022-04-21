@@ -77,9 +77,12 @@ export default {
 
     // 修改老师信息 对于id
     handleChangeTeacher(e) {
+      console.log(e)
       this.form.headid = e
     },
-
+    setCurrentTime(e) {
+      console.log(e)
+    },
     // 更改学期下拉 更改学期信息
     handleAddGetSemester(e) {
       this.addForm.semester = this.semesterDataList.filter((item) => {
@@ -98,9 +101,14 @@ export default {
           const { id, name, location, hour, orderNum, day, semester, headid, store } = this.form
           // 需要对时间进行处理
           delete this.form.teacherInfo
-          const curHour = getFormatHour(hour)
+          let curHour = hour
+          if (typeof (hour[0]) !== 'string') {
+            curHour = getFormatHour(hour)
+          } else {
+            curHour = hour.join('-')
+          }
           this.form = {
-            id, name, location, hour: curHour.join('-'), store, orderNum, semester, headid,
+            id, name, location, hour: curHour, store, orderNum, semester, headid,
             day
           }
           console.log(this.form)

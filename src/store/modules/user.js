@@ -15,7 +15,7 @@ const getDefaultState = () => {
 const state = getDefaultState()
 
 const mutations = {
-  RESET_STATE: (state) => {
+  RESET_STATE: state => {
     Object.assign(state, getDefaultState())
   },
   SET_TOKEN: (state, token) => {
@@ -40,49 +40,54 @@ const actions = {
   login({ commit }, userInfo) {
     const { userName, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ userName: userName.trim(), password: password }).then(response => {
-        const { token } = response.data
-        commit('SET_TOKEN', token)
-        setToken(token)
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
+      login({ userName: userName.trim(), password: password })
+        .then(response => {
+          const { token } = response.data
+          commit('SET_TOKEN', token)
+          setToken(token)
+          resolve()
+        })
+        .catch(error => {
+          reject(error)
+        })
     })
   },
 
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
-        const { data } = response
-        if (!data) {
-          return reject('Verification failed, please Login again.')
-        }
-        const { name, identity, id } = data
-        console.log(data)
-        commit('SET_NAME', name)
-        commit('SET_ROLES', [ROLES_MAP[identity]])
-        commit('SET_HEADID', id)
-        // commit('SET_AVATAR', avatar)
-        resolve(data)
-      }).catch(error => {
-        reject(error)
-      })
+      getInfo(state.token)
+        .then(response => {
+          const { data } = response
+          if (!data) {
+            return reject('Verification failed, please Login again.')
+          }
+          const { name, identity, id } = data
+          commit('SET_NAME', name)
+          commit('SET_ROLES', [ROLES_MAP[identity]])
+          commit('SET_HEADID', id)
+          // commit('SET_AVATAR', avatar)
+          resolve(data)
+        })
+        .catch(error => {
+          reject(error)
+        })
     })
   },
 
   // user logout
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
-        removeToken() // must remove  token  first
-        resetRouter()
-        commit('RESET_STATE')
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
+      logout(state.token)
+        .then(() => {
+          removeToken() // must remove  token  first
+          resetRouter()
+          commit('RESET_STATE')
+          resolve()
+        })
+        .catch(error => {
+          reject(error)
+        })
     })
   },
 
@@ -97,12 +102,14 @@ const actions = {
   // user 修改密码
   updatePwd({ commit }, params) {
     return new Promise((resolve, reject) => {
-      updatePwd({ ...params }).then((res) => {
-        console.log(res)
-        resolve(res)
-      }).catch(error => {
-        reject(error)
-      })
+      updatePwd({ ...params })
+        .then(res => {
+          console.log(res)
+          resolve(res)
+        })
+        .catch(error => {
+          reject(error)
+        })
     })
   }
 }
@@ -113,4 +120,3 @@ export default {
   mutations,
   actions
 }
-

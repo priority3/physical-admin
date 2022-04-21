@@ -1,4 +1,5 @@
-// 去获取tableList数据
+// 去获取tableList数据{
+import { export_excel_file } from '@/utils/exportFile'
 export default {
   data() {
     return {
@@ -19,7 +20,7 @@ export default {
         total: 0,
         // showSizeChanger: true,
         // 可选的pagesize参数
-        pageSizeOptions: [5, 15, 21, 42, 60]
+        pageSizeOptions: [5, 15, 21, 42, 60],
       },
       // 是否加载数据
       isFirstGetlist: true,
@@ -30,9 +31,9 @@ export default {
       // 查询按钮的加载状态
       // searchLoading: false,
       // 导出按钮状态
-      // exportLoading: false,
+      exportLoading: false,
       // 删除按钮的loading
-      deleLoading: false
+      deleLoading: false,
     }
   },
   methods: {
@@ -40,17 +41,21 @@ export default {
       const { size, current } = this.pagination
       const params = this.rebuildParams({ size, current })
       this.tableLoading = true
-      this.$store.dispatch(this.baseApi, params).then((res) => {
-        const { size, total, records, current } = res.data
-        this.list = records
-        this.pagination.total = total
-        this.pagination.current = current
-        this.pagination.size = size
-      }).catch((err) => {
-        console.log(err)
-      }).finally(() => {
-        this.tableLoading = false
-      })
+      this.$store
+        .dispatch(this.baseApi, params)
+        .then(res => {
+          const { size, total, records, current } = res.data
+          this.list = records
+          this.pagination.total = total
+          this.pagination.current = current
+          this.pagination.size = size
+        })
+        .catch(err => {
+          console.log(err)
+        })
+        .finally(() => {
+          this.tableLoading = false
+        })
     },
     // 查找
     async onSearch(query, searchLoading) {
@@ -65,16 +70,36 @@ export default {
       console.log(searchLoading)
     },
     // 导出
-    onExport(id) {
-      this.$store.dispatch(this.exportApi, { id }).then((res) => {
-        this.$notify({
-          title: '导出成功',
-          message: '导出学生信息成功',
-          type: 'success'
-        })
-      }).catch((err) => {
-        console.log(err)
+    onExport({ ...query }, listName, exportQuery) {
+      const newQuery = Object.assign(query, exportQuery)
+      Object.keys(newQuery).forEach(key => {
+        if (!newQuery[key] === undefined) {
+          delete newQuery[key]
+        }
       })
+      if (this.exportLoading) return
+      this.exportLoading = true
+      this.$store
+        .dispatch(this.exportApi, newQuery)
+        .then(res => {
+          this.$notify({
+            title: '导出成功',
+            message: `导出${listName}列表成功`,
+            type: 'success',
+          })
+          export_excel_file(res, listName)
+        })
+        .catch(err => {
+          this.$notify({
+            title: '失败',
+            message: `导出${listName}列表失败，请稍后重试！！`,
+            type: 'danger',
+          })
+          console.log(err)
+        })
+        .finally(() => {
+          this.exportLoading = false
+        })
     },
     // 将列表查询参数和混合参数合并
     mergeParams() {
@@ -82,7 +107,6 @@ export default {
     },
     // 分页改变触发
     handlePaginationChanged(e) {
-      console.log(e)
       const { page, size } = e
       this.pagination.current = page
       this.pagination.size = size
@@ -94,47 +118,56 @@ export default {
     },
     // 学期下拉 更改学期信息
     handleGetSemester(e) {
-      this.addForm.semester = this.options.filter((item) => {
+      this.addForm.semester = this.options.filter(item => {
         return item.value === e
       })[0].label
     },
     // 删除某个预约
     deleteListItem({ id }) {
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+      const { total, size, current } = this.pagination
+      this.$confirm('所有信息都将删除, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.deleLoading = true
-        this.$store.dispatch(this.deleteApi, { id }).then((res) => {
-          if (res.code === 200) {
-            this.$notify({
-              type: 'success',
-              message: '删除成功!'
-            })
-            this.getList()
-          } else {
-            this.$notify({
-              type: 'warning',
-              message: '删除失败!'
-            })
-          }
-        }
-        ).catch((err) => {
-          console.log(err)
-          this.$notify({
-            type: 'warning',
-            message: '删除失败!'
-          })
-        }).finally(() => {
-          this.deleLoading = false
-        })
-      }).catch(() => {
-        // this.$notify({
-        //   type: 'info',
-        //   message: '已取消删除'
-        // })
+        type: 'warning',
       })
+        .then(() => {
+          this.deleLoading = true
+          this.$store
+            .dispatch(this.deleteApi, { id })
+            .then(res => {
+              if (res.code === 200) {
+                this.$notify({
+                  type: 'success',
+                  message: '删除成功!',
+                })
+                if (current > 1 && total === size + 1) {
+                  this.pagination.current--
+                }
+                this.getList()
+              } else {
+                this.$notify({
+                  type: 'warning',
+                  message: '删除失败!',
+                })
+              }
+            })
+            .catch(err => {
+              console.log(err)
+              this.$notify({
+                type: 'warning',
+                message: '删除失败!',
+              })
+            })
+            .finally(() => {
+              this.deleLoading = false
+            })
+        })
+        .catch(() => {
+          // this.$notify({
+          //   type: 'info',
+          //   message: '已取消删除'
+          // })
+        })
     },
     // 重新构建请求参数
     rebuildParams(curParams) {
@@ -145,20 +178,19 @@ export default {
       par = {
         ...par,
         ...curParams,
-        id: this.id
+        id: this.id,
       }
       const newParams = {}
-      Object.keys(par).forEach((key) => {
+      Object.keys(par).forEach(key => {
         if (par[key] !== undefined && par[key] !== '') {
           newParams[key] = par[key]
         }
       })
       return newParams
-    }
-
+    },
   },
   created() {
     if (!this.isFirstGetlist) return
     this.getList()
-  }
+  },
 }

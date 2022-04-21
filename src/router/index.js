@@ -51,7 +51,7 @@ export const constantRoutes = [
       {
         path: 'dashboard',
         name: 'Dashboard',
-        component: () => import(/* webpackChunkName: "dashboard" */'@/views/dashboard/index'),
+        component: () => import(/* webpackChunkName: "dashboard" */ '@/views/dashboard/index'),
         meta: { title: '控制台', icon: 'dashboard' }
       }
     ]
@@ -69,15 +69,37 @@ export const constantRoutes = [
         name: 'UserPoint',
         component: () => import('@/views/approintManagement/index'),
         meta: { title: '预约列表', icon: 'table' }
-      },
+      }
+    ]
+  },
+  {
+    path: '/appoint-detail',
+    component: Layout,
+    redirect: '/example/table',
+    name: 'ExampleTable',
+    meta: { title: '详细信息', icon: 'el-icon-s-help' },
+    children: [
       {
         path: 'user-appoint-detail',
         name: 'UserPointDetail',
         component: () => import('@/views/approintManagement/UserPointDetail/index')
       }
     ]
+  },
+  {
+    path: '/appoint-stu-detail',
+    component: Layout,
+    redirect: '/example/table',
+    name: 'ExampleTable',
+    meta: { title: '预约班级信息' },
+    children: [
+      {
+        path: 'user-stu-detail',
+        name: 'UserstuPointDetail',
+        component: () => import('@/views/approintManagement/stuInfo/index')
+      }
+    ]
   }
-
 ]
 // 动态判断权限路由
 export const asyncRoutes = [
@@ -95,19 +117,6 @@ export const asyncRoutes = [
     ]
   },
   {
-    path: '/free',
-    component: Layout,
-    meta: { roles: ['admin'] },
-    children: [
-      {
-        path: 'manage-free',
-        name: 'freeApprove',
-        component: () => import('@/views/freeApprove/index'),
-        meta: { title: '免测管理', icon: 'el-icon-s-release' }
-      }
-    ]
-  },
-  {
     path: '/teacher',
     component: Layout,
     meta: { roles: ['admin'] },
@@ -121,6 +130,46 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/free',
+    component: Layout,
+    meta: { roles: ['admin'] },
+    children: [
+      {
+        path: 'manage-free',
+        name: 'freeApprove',
+        component: () => import('@/views/freeApprove/index'),
+        meta: { title: '免测管理', icon: 'el-icon-s-release' }
+      }
+    ]
+  },
+  {
+    path: '/slow',
+    component: Layout,
+    meta: { roles: ['admin'] },
+    children: [
+      {
+        path: 'appoint',
+        name: 'SlowAppoint',
+        component: () => import('@/views/slowAppoint/index'),
+        meta: { title: '缓测管理', icon: 'el-icon-c-scale-to-original' }
+      }
+    ]
+  },
+  {
+    path: '/other',
+    component: Layout,
+    meta: { roles: ['admin'] },
+    children: [
+      {
+        path: 'appoint',
+        name: 'SlowAppoint',
+        component: () => import('@/views/otherApprove/index'),
+        meta: { title: '其他事项', icon: 'el-icon-receiving' }
+      }
+    ]
+  },
+
+  {
     path: '/user',
     component: Layout,
     redirect: '/user/info',
@@ -132,7 +181,9 @@ export const asyncRoutes = [
         meta: { title: '个人信息', icon: 'el-icon-s-custom' }
       }
     ]
+
   },
+
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

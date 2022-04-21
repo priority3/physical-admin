@@ -4,8 +4,8 @@
     <div>
       <div class="header-box">
         <div class="input-box">
-          <el-input v-model="listQuery.name" placeholder="请输入学工号..." clearable />
-          <el-input v-model="listQuery.userName" placeholder="请输入姓名..." clearable />
+          <el-input v-model="listQuery.userName" placeholder="请输入学工号..." clearable />
+          <el-input v-model="listQuery.name" placeholder="请输入姓名..." clearable />
         </div>
         <div class="btn-box">
           <self-button
@@ -13,8 +13,9 @@
             type="primary"
             @btnClick="$refs[curtabTable].onSearch(listQuery, searchLoading)"
           >查询</self-button>
-          <el-button type="primary" @click="$refs[curtabTable].onExport()">导出</el-button>
-          <el-button type="primary">导入</el-button>
+          <el-button type="primary" @click="$refs[curtabTable].onExport(undefined, '老师信息')">导出</el-button>
+          <el-button type="primary" @click="$refs['excelDailog'].showDialog()">导入</el-button>
+          <el-button type="primary" @click="$refs[curtabTable].showAddDialog()">添加</el-button>
         </div>
       </div>
     </div>
@@ -23,13 +24,19 @@
         <component :is="curtabTable" :ref="curtabTable" />
       </template>
     </tabs>
-    <!-- 分页 -->
+    <excel-import
+      ref="excelDailog"
+      :example-url="exampleUrl"
+      :upload-url="uploadUrl"
+      @complete="$refs[curtabTable].getList()"
+    />
   </div>
 </template>
 
 <script>
 import pagination from '@/components/Pagination/index.vue'
 import selfButton from '@/components/SelfButton/index.vue'
+import ExcelImport from '@/components/ExcelImport/index.vue'
 import tabs from '@/components/tabs'
 // import { formatDate } from '@/utils/formatDate'
 export default {
@@ -38,6 +45,7 @@ export default {
     pagination,
     tabs,
     selfButton,
+    ExcelImport,
     // 切换组件
     allTeacherInfo: () => import('./allTeacherTable/index.vue')
   },
@@ -49,7 +57,9 @@ export default {
       },
       curtabTable: 'allTeacherInfo',
       searchLoading: false,
-
+      // 样例下载
+      exampleUrl: 'list/exampleExcelTeacher',
+      uploadUrl: 'list/handlePostExcelTeacher',
       // tabs
       tabspanel: [{
         'tab-name': '教师信息',

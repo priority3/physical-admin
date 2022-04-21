@@ -2,23 +2,15 @@
   <div>
     <el-dialog title="填写理由" :visible.sync="outerVisible">
       <el-form ref="rejectForm" :model="form" label-width="100px" label-position="left">
-        <el-form-item
-          :label="modelMap['dialog-title']"
-          prop="reason"
-          :rules="{
-            required: true, message: modelMap['dialog-message'], trigger: 'blur'
-          }"
-        >
-          <el-input v-model="form.reason" placeholder="请输入内容" />
+        <el-form-item :label="modelMap['dialog-title']" prop="auditMessage" :rules="{
+          required: true, message: modelMap['dialog-message'], trigger: 'blur'
+        }">
+          <el-input v-model="form.auditMessage" placeholder="请输入内容" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="outerVisible = false">取 消</el-button>
-        <el-button
-          type="primary"
-          :loading="btnLoading"
-          @click="handleReject($refs['rejectForm'])"
-        >确定</el-button>
+        <el-button type="primary" :loading="btnLoading" @click="handleReject($refs['rejectForm'])">确定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -32,7 +24,7 @@ export default {
       // 驳回 or 同意
       delOrApr: 0,
       form: {
-        reason: '',
+        auditMessage: '',
         id: ''
       },
       btnLoading: false
@@ -78,6 +70,7 @@ export default {
           title: '操作成功',
           type: 'success'
         })
+        this.$emit('complete')
       }).catch((err) => {
         this.$notify.error({
           title: '操作失败',
@@ -86,6 +79,7 @@ export default {
         })
       }).finally(() => {
         this.btnLoading = false
+        this.outerVisible = false
       })
     }
   }

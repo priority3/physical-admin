@@ -8,7 +8,12 @@ import {
   handleDelUsedInfo,
   handleGetSemester,
   exportListStuInfo,
-  handleFixedTeacherInfo
+  handleFixedTeacherInfo,
+  handleAddTeacher,
+  exampleExcelTeacher,
+  handlePostExcelTeacher,
+  handleAddSemester,
+  handleDelSemester
 } from '@/api/table'
 
 const state = {
@@ -116,6 +121,48 @@ const actions = {
         console.log(err)
         reject(err)
       })
+    })
+  },
+
+  // 添加老师
+  handleAddTeacher({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      handleAddTeacher({ ...params }).then((res) => {
+        resolve(res)
+      }).catch(err => reject(err))
+    })
+  },
+
+  // 导出老师模板案列
+  exampleExcelTeacher({ commit }) {
+    return new Promise((resolve, reject) => {
+      exampleExcelTeacher().then((res) => {
+        resolve(res)
+      }).catch(err => reject(err))
+    })
+  },
+  // 导入老师信息
+  handlePostExcelTeacher({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      handlePostExcelTeacher(params).then((res) => {
+        resolve(res)
+      }).catch(err => reject(err))
+    })
+  },
+  // 添加学期
+  handleAddSemester({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      handleAddSemester({ ...params }).then((res) => {
+        resolve(res)
+      }).catch(err => reject(err))
+    })
+  },
+  // 删除学期
+  handleDelSemester({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      handleDelSemester({ ...params }).then((res) => {
+        resolve(res)
+      }).catch(err => reject(err))
     })
   }
 }

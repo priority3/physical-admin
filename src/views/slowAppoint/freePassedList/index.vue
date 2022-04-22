@@ -29,8 +29,8 @@
 <script>
 import pagination from '@/components/Pagination/index.vue'
 import list from '@/layout/mixin/list.js'
-import rejectApprove from '../components/reject-approve'
-import detailInfo from '../components/detailInfo'
+import rejectApprove from '@/components/reject-approve'
+import detailInfo from '@/components/detailInfo'
 export default {
   components: {
     pagination,

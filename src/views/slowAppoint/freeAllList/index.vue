@@ -35,7 +35,7 @@
 <script>
 import list from '@/layout/mixin/list'
 import pagination from '@/components/Pagination/index.vue'
-import detailInfo from '../components/detailInfo'
+import detailInfo from '@/components/detailInfo'
 export default {
   components: {
     pagination,

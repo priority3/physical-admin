@@ -52,6 +52,7 @@ export default {
       this.form.id = id
     },
     validForm(form) {
+      console.log(this.form)
       return new Promise((resolve, reject) => {
         form.validate((valid) => {
           if (valid) {

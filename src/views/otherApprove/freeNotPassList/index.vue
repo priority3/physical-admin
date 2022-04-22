@@ -9,7 +9,7 @@
       <el-table-column prop="nationality" label="名族代码" />
       <el-table-column prop="birth" label="出生日期" />
       <el-table-column prop="idCard" label="身份证号" />
-      <el-table-column prop="semester" label="申请学期" />
+      <el-table-column prop="semester" label="申请学期阶段" />
       <el-table-column label="操作" width="250">
         <template slot-scope="scope">
           <el-button size="small" type="primary" @click="$refs['detail'].open(scope.row)">详情</el-button>
@@ -29,8 +29,8 @@
 <script>
 import pagination from '@/components/Pagination/index.vue'
 import list from '@/layout/mixin/list.js'
-import rejectApprove from '../components/reject-approve'
-import detailInfo from '../components/detailInfo'
+import rejectApprove from '@/components/reject-approve'
+import detailInfo from '@/components/detailInfo'
 export default {
   components: {
     pagination,

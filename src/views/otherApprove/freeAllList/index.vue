@@ -10,7 +10,7 @@
       <el-table-column prop="nationality" label="名族代码" />
       <el-table-column prop="birth" label="出生日期" />
       <el-table-column prop="idCard" label="身份证号" />
-      <el-table-column prop="semester" label="申请学期" />
+      <el-table-column prop="semester" label="申请学期阶段" />
       <el-table-column prop="isPass" label="审核状态">
         <template slot-scope="scope">
           <el-tag :type="scope.row.curTag" disable-transitions>{{ scope.row.isPass }}</el-tag>
@@ -35,7 +35,7 @@
 <script>
 import list from '@/layout/mixin/list'
 import pagination from '@/components/Pagination/index.vue'
-import detailInfo from '../components/detailInfo'
+import detailInfo from '@/components/detailInfo'
 export default {
   components: {
     pagination,

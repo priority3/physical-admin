@@ -19,7 +19,7 @@
     <div class="infobox-container app-container">
       <el-row>
         <el-col :md="8">
-          <el-card class="box-card">
+          <el-card ref="boxCard" class="box-card">
             <div slot="header" class="clearfix">
               <span>学期管理</span>
               <el-button
@@ -58,6 +58,8 @@
 
 <script>
 import { CARD_MAP } from '@/constants'
+import Sortable from 'sortablejs'
+import { buildUUID } from '@/utils/uuid'
 export default {
   name: 'Dashboard',
   data() {
@@ -65,21 +67,27 @@ export default {
       itemCard: [],
       semesterList: [],
       dialogVisible: false,
-      addsemester: ''
+      addsemester: '',
+      sortable: null
     }
   },
   computed: {
     semesterDataList(self) {
       return self.semesterList?.map((item, index) => {
         return {
-          value: item
+          value: item,
+          id: buildUUID()
         }
       }) ?? []
     },
     itemCardList(self) {
       const { roles } = self.$store.getters
       return CARD_MAP[roles]
+    },
+    newList(self) {
+      return self.semesterList?.map(v => v.id) ?? []
     }
+
   },
   mounted() {
     this.handleGetSemester()
@@ -88,9 +96,32 @@ export default {
     switchTab(path) {
       this.$router.push({ path })
     },
-    handleGetSemester() {
-      this.$store.dispatch('list/handleGetSemester').then((res) => {
-        this.semesterList = res.data
+    async handleGetSemester() {
+      const { data } = await this.$store.dispatch('list/handleGetSemester')
+      this.semesterList = data
+      // 拖拽功能
+      this.$nextTick(() => {
+        this.setSort()
+      })
+    },
+
+    // 拖拽
+    setSort() {
+      const el = this.$refs['boxCard'].$el.querySelectorAll('.el-card>.el-card__body')[0]
+      this.sortable = Sortable.create(el, {
+        ghostClass: 'sortable-ghost', // Class name for the drop placeholder,
+        setData: function(dataTransfer) {
+          // to avoid Firefox bug
+          // Detail see : https://github.com/RubaXa/Sortable/issues/1012
+          dataTransfer.setData('Text', '')
+        },
+        onEnd: evt => {
+          const targetRow = this.semesterDataList.splice(evt.oldIndex, 1)[0]
+          this.semesterDataList.splice(evt.newIndex, 0, targetRow)
+          // for show the changes, you can delete in you code
+          const tempIndex = this.newList.splice(evt.oldIndex, 1)[0]
+          this.newList.splice(evt.newIndex, 0, tempIndex)
+        }
       })
     },
     handleAddSemester() {
@@ -140,6 +171,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.sortable-ghost{
+  opacity: .8;
+  color: #fff!important;
+  background: #42b983!important;
+}
 .dashboard-container {
   height: calc(100vh - 70px);
   .dashboard-title {

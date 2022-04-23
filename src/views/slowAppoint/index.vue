@@ -73,7 +73,7 @@ export default {
           'tab-name': '已驳回',
           'tab-key': 'free_not_pass_list'
         }, {
-          'tab-name': '免测申请',
+          'tab-name': '免测列表',
           'tab-key': 'free_all_list'
         }]
     }

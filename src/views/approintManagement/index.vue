@@ -5,8 +5,8 @@
       <div class="header-box">
         <div class="input-box">
           <el-input v-model="listQuery.name" placeholder="请输入名称..." clearable />
-          <el-date-picker v-model="listQuery.day" type="date" placeholder="选择日期" value-format="yyyy-MM-dd" />
-          <el-select v-model="listQuery.semester" placeholder="选择学期" clearable>
+          <el-date-picker v-model="listQuery.day" type="date" placeholder="选择日期" value-format="yyyy-MM-dd" clearable />
+          <el-select v-model="listQuery.semester" placeholder="选择学期阶段" clearable>
             <el-option v-for="item in semesterDataList" :key="item.value" :label="item.label" :value="item.label" />
           </el-select>
         </div>
@@ -33,9 +33,14 @@
       </el-table-column>
     </el-table>
 
-    <pagination :style="{ textAlign: 'right' }" :total="pagination.total" :size="pagination.size"
-      :current-page="pagination.current" :page-sizes="pagination.pageSizeOptions"
-      @pagination="handlePaginationChanged" />
+    <pagination
+      :style="{ textAlign: 'right' }"
+      :total="pagination.total"
+      :size="pagination.size"
+      :current-page="pagination.current"
+      :page-sizes="pagination.pageSizeOptions"
+      @pagination="handlePaginationChanged"
+    />
     <detail-form ref="form" @complete="getList" />
   </div>
 </template>

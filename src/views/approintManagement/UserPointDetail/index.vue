@@ -17,11 +17,10 @@
       </div>
       <!-- 表格数据 -->
       <el-table v-loading="tableLoading" :data="dataList" style="width: 100%;margin-top: 40px;">
-        <el-table-column prop="name" label="姓名" />
-        <el-table-column prop="grade" label="年级" />
+        <el-table-column prop="user.name" label="姓名" />
+        <el-table-column prop="user.grade" label="年级" />
         <el-table-column prop="specialtyClass" label="专业班级" />
-
-        <el-table-column prop="phone" label="联系方式" />
+        <el-table-column prop="user.phone" label="联系方式" />
         <el-table-column label="操作">
           <div slot-scope="scope" class="btn-fun-box">
             <self-button type="danger" size="small" @btnClick="deleteListItem(scope.row)">删除</self-button>
@@ -29,9 +28,14 @@
         </el-table-column>
       </el-table>
       <!-- 分页 -->
-      <pagination :style="{ textAlign: 'right' }" :total="pagination.total" :size="pagination.size"
-        :current-page="pagination.current" :page-sizes="pagination.pageSizeOptions"
-        @pagination="handlePaginationChanged" />
+      <pagination
+        :style="{ textAlign: 'right' }"
+        :total="pagination.total"
+        :size="pagination.size"
+        :current-page="pagination.current"
+        :page-sizes="pagination.pageSizeOptions"
+        @pagination="handlePaginationChanged"
+      />
       <el-dialog title="添加学生" :visible.sync="dialogVisible" width="30%">
         <el-form ref="addForm" :model="addForm" label-width="80px" :rules="fixedRules">
           <el-form-item label="姓名" prop="name">
@@ -123,8 +127,7 @@ export default {
     dataList(self) {
       return self.list.map((item) => {
         return {
-          ...item,
-          id: item['testUserId']
+          ...item
         }
       })
     }

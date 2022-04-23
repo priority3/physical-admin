@@ -10,9 +10,17 @@
           <el-date-picker v-model="form.day" type="date" placeholder="选择日期" value-format="yyyy-MM-dd" />
         </el-form-item>
         <el-form-item label="具体时间" prop="hour">
-          <el-time-picker v-model="form.hour" is-range range-separator="至" start-placeholder="开始时间"
-            end-placeholder="结束时间" placeholder="选择时间范围" format="HH:mm:ss" value-format="HH:mm:ss"
-            @change="setCurrentTime" />
+          <el-time-picker
+            v-model="form.hour"
+            is-range
+            range-separator="至"
+            start-placeholder="开始时间"
+            end-placeholder="结束时间"
+            placeholder="选择时间范围"
+            format="HH:mm:ss"
+            value-format="HH:mm:ss"
+            @change="setCurrentTime"
+          />
         </el-form-item>
         <el-form-item label="学期" prop="semester">
           <el-select v-model="form.semester" placeholder="请选择" @change="handleGetSemester">
@@ -57,8 +65,15 @@
           <el-date-picker v-model="addForm.day" type="date" placeholder="选择日期" value-format="yyyy-MM-dd" />
         </el-form-item>
         <el-form-item label="具体时间" prop="hour">
-          <el-time-picker v-model="addForm.hour" is-range range-separator="至" start-placeholder="开始时间"
-            end-placeholder="结束时间" placeholder="选择时间范围" value-format="HH:mm:ss" />
+          <el-time-picker
+            v-model="addForm.hour"
+            is-range
+            range-separator="至"
+            start-placeholder="开始时间"
+            end-placeholder="结束时间"
+            placeholder="选择时间范围"
+            value-format="HH:mm:ss"
+          />
         </el-form-item>
         <el-form-item label="学期" prop="semester">
           <el-select v-model="addForm.semester" placeholder="请选择" @change="handleAddGetSemester">

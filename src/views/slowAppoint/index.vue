@@ -5,8 +5,8 @@
       <div>
         <div class="header-box">
           <div class="input-box">
-            <el-input v-model="listQuery.userName" placeholder="请输入学号..." />
-            <el-input v-model="listQuery.name" placeholder="请输入姓名..." />
+            <el-input v-model="listQuery.userName" placeholder="请输入学号..." clearable />
+            <el-input v-model="listQuery.name" placeholder="请输入姓名..." clearable />
           </div>
           <div class="btn-box">
             <el-button type="primary" @click="$refs[curtabTable].onSearch(listQuery)">查询</el-button>
@@ -28,8 +28,12 @@
         <component :is="curtabTable" :ref="curtabTable" :table-list-query="tableListQuery" />
       </template>
     </tabs>
-    <excel-import ref="excelDailog" :example-url="exampleUrl" :upload-url="uploadUrl"
-      @complete="$refs[curtabTable].getList()" />
+    <excel-import
+      ref="excelDailog"
+      :example-url="exampleUrl"
+      :upload-url="uploadUrl"
+      @complete="$refs[curtabTable].getList()"
+    />
   </div>
 </template>
 

@@ -25,8 +25,12 @@
         <el-descriptions-item span="2" label="申请理由">{{ curList.reason }}</el-descriptions-item>
         <el-descriptions-item label="图片说明" content-class-name="detail-images-container">
           <div v-for="item in curList.images" :key="item.id">
-            <el-image style="width: 150px; height: 150px" :src="baseURL + item" fit="fit"
-              :preview-src-list="curList.images | handleGetAllimg(baseURL)" />
+            <el-image
+              style="width: 150px; height: 150px"
+              :src="baseURL + item"
+              fit="fit"
+              :preview-src-list="curList.images | handleGetAllimg(baseURL)"
+            />
           </div>
         </el-descriptions-item>
       </el-descriptions>

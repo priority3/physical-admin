@@ -20,7 +20,7 @@ export default {
         total: 0,
         // showSizeChanger: true,
         // 可选的pagesize参数
-        pageSizeOptions: [5, 15, 21, 42, 60],
+        pageSizeOptions: [5, 15, 21, 42, 60]
       },
       // 是否加载数据
       isFirstGetlist: true,
@@ -33,7 +33,7 @@ export default {
       // 导出按钮状态
       exportLoading: false,
       // 删除按钮的loading
-      deleLoading: false,
+      deleLoading: false
     }
   },
   methods: {
@@ -85,7 +85,7 @@ export default {
           this.$notify({
             title: '导出成功',
             message: `导出${listName}列表成功`,
-            type: 'success',
+            type: 'success'
           })
           export_excel_file(res, listName)
         })
@@ -93,7 +93,7 @@ export default {
           this.$notify({
             title: '失败',
             message: `导出${listName}列表失败，请稍后重试！！`,
-            type: 'danger',
+            type: 'danger'
           })
           console.log(err)
         })
@@ -128,7 +128,7 @@ export default {
       this.$confirm('所有信息都将删除, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning',
+        type: 'warning'
       })
         .then(() => {
           this.deleLoading = true
@@ -138,7 +138,7 @@ export default {
               if (res.code === 200) {
                 this.$notify({
                   type: 'success',
-                  message: '删除成功!',
+                  message: '删除成功!'
                 })
                 if (current > 1 && total === size + 1) {
                   this.pagination.current--
@@ -147,7 +147,7 @@ export default {
               } else {
                 this.$notify({
                   type: 'warning',
-                  message: '删除失败!',
+                  message: '删除失败!'
                 })
               }
             })
@@ -155,7 +155,7 @@ export default {
               console.log(err)
               this.$notify({
                 type: 'warning',
-                message: '删除失败!',
+                message: '删除失败!'
               })
             })
             .finally(() => {
@@ -178,7 +178,7 @@ export default {
       par = {
         ...par,
         ...curParams,
-        id: this.id,
+        id: this.id
       }
       const newParams = {}
       Object.keys(par).forEach(key => {
@@ -187,10 +187,10 @@ export default {
         }
       })
       return newParams
-    },
+    }
   },
   created() {
     if (!this.isFirstGetlist) return
     this.getList()
-  },
+  }
 }

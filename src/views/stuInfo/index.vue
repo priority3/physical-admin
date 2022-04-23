@@ -21,8 +21,12 @@
       </template>
     </tabs>
 
-    <excel-import ref="excelDailog" :example-url="exampleUrl" :upload-url="uploadUrl"
-      @complete="$refs[curtabTable].getList()" />
+    <excel-import
+      ref="excelDailog"
+      :example-url="exampleUrl"
+      :upload-url="uploadUrl"
+      @complete="$refs[curtabTable].getList()"
+    />
   </div>
 </template>
 <!-- :example-url="`${baseApi}/downloadExample`"

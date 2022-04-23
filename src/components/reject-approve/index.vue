@@ -2,9 +2,13 @@
   <div>
     <el-dialog title="填写理由" :visible.sync="outerVisible">
       <el-form ref="rejectForm" :model="form" label-width="100px" label-position="left">
-        <el-form-item :label="modelMap['dialog-title']" prop="auditMessage" :rules="{
-          required: true, message: modelMap['dialog-message'], trigger: 'blur'
-        }">
+        <el-form-item
+          :label="modelMap['dialog-title']"
+          prop="auditMessage"
+          :rules="{
+            required: true, message: modelMap['dialog-message'], trigger: 'blur'
+          }"
+        >
           <el-input v-model="form.auditMessage" placeholder="请输入内容" />
         </el-form-item>
       </el-form>

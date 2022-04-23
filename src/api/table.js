@@ -9,7 +9,7 @@ function getList(params) {
   return request({
     url: '/reserve/allTestList',
     method: 'get',
-    params,
+    params
   })
 }
 /**
@@ -20,7 +20,7 @@ function getTeachInfo(params) {
   return request({
     url: '/teacherList',
     method: 'get',
-    params,
+    params
   })
 }
 /**
@@ -31,7 +31,7 @@ function handleFixedTeacherInfo(data) {
   return request({
     url: '/teacher',
     method: 'put',
-    data,
+    data
   })
 }
 
@@ -39,7 +39,7 @@ function getDetail(params) {
   return request({
     url: '',
     method: 'get',
-    params,
+    params
   })
 }
 /**
@@ -51,7 +51,7 @@ function delListItem(params) {
   return request({
     url: '/reserve/deleteTestById',
     method: 'delete',
-    params,
+    params
   })
 }
 
@@ -64,7 +64,7 @@ function fixedAppiontInfo(data) {
   return request({
     url: '/reserve/updateTest',
     method: 'put',
-    data,
+    data
   })
 }
 
@@ -77,7 +77,7 @@ function addAppiontInfo(data) {
   return request({
     url: '/reserve/addTest',
     method: 'post',
-    data,
+    data
   })
 }
 /**
@@ -88,7 +88,7 @@ function getStudentListByInfo(params) {
   return request({
     url: '/reserve/orderList',
     method: 'get',
-    params,
+    params
   })
 }
 /**
@@ -100,7 +100,7 @@ function handleDelUsedInfo(params) {
   return request({
     url: '/reserve/deleteOrderById',
     method: 'delete',
-    params,
+    params
   })
 }
 /**
@@ -110,7 +110,7 @@ function handleDelUsedInfo(params) {
 function handleGetSemester() {
   return request({
     url: '/semester',
-    method: 'get',
+    method: 'get'
   })
 }
 
@@ -124,7 +124,7 @@ function exportListStuInfo(params) {
     url: '/excel/downloadStudentListFormTest',
     method: 'get',
     params,
-    responseType: 'arraybuffer',
+    responseType: 'arraybuffer'
   })
 }
 
@@ -133,7 +133,7 @@ function handleAddTeacher(params) {
   return request({
     url: '/teacher',
     method: 'post',
-    data: params,
+    data: params
   })
 }
 // 老师模板案列下载
@@ -141,7 +141,7 @@ function exampleExcelTeacher() {
   return request({
     url: '/excel/downloadTeacherTemplate',
     method: 'get',
-    responseType: 'arraybuffer',
+    responseType: 'arraybuffer'
   })
 }
 
@@ -152,8 +152,8 @@ function handlePostExcelTeacher(params) {
     method: 'post',
     data: params,
     headers: {
-      'Content-Type': 'multipart/form-data',
-    },
+      'Content-Type': 'multipart/form-data'
+    }
   })
 }
 // 添加学期
@@ -161,7 +161,7 @@ function handleAddSemester(params) {
   return request({
     url: '/semester',
     method: 'post',
-    data: params,
+    data: params
   })
 }
 // 删除学期
@@ -169,7 +169,7 @@ function handleDelSemester(params) {
   return request({
     url: '/semester',
     method: 'delete',
-    params,
+    params
   })
 }
 
@@ -189,5 +189,5 @@ export {
   exampleExcelTeacher,
   handlePostExcelTeacher,
   handleAddSemester,
-  handleDelSemester,
+  handleDelSemester
 }

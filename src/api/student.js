@@ -10,7 +10,7 @@ const handleGetStuInfo = params => {
   return request({
     url: '/student/list',
     method: 'GET',
-    params,
+    params
   })
 }
 
@@ -23,7 +23,7 @@ const handleGetFreeStuInfo = params => {
   return request({
     url: '/freeTest/list',
     method: 'GET',
-    params,
+    params
   })
 }
 /**
@@ -35,7 +35,7 @@ const handleDeleteFreeInfo = params => {
   return request({
     url: '/freeTest/delete',
     method: 'delete',
-    params,
+    params
   })
 }
 /**
@@ -47,7 +47,7 @@ const handleDeleteStuInfo = params => {
   return request({
     url: '/student',
     method: 'delete',
-    params,
+    params
   })
 }
 
@@ -60,7 +60,7 @@ const handleExcelAllStu = () => {
   return request({
     url: '/excel/downloadStudentList',
     method: 'get',
-    responseType: 'arraybuffer',
+    responseType: 'arraybuffer'
   })
 }
 
@@ -72,7 +72,7 @@ const handleExcelAllStu = () => {
 const handleExcelFreeStu = () => {
   return request({
     url: '/excel/downloadFreeTestStudent',
-    method: 'get',
+    method: 'get'
   })
 }
 
@@ -84,13 +84,13 @@ const handleExcelFreeStu = () => {
 const handleRejectStu = params => {
   return request({
     url: '/freeTest/rejectApplication',
-    method: 'post',
-    data: params,
+    method: 'put',
+    data: params
   })
 }
 
 /**
- * 接受预约
+ * 同意免测
  * @param {} params
  * @returns
  */
@@ -98,7 +98,7 @@ const handleApproveFree = params => {
   return request({
     url: '/freeTest/agreeApplication',
     method: 'put',
-    data: params,
+    data: params
   })
 }
 
@@ -111,7 +111,7 @@ const handleFixedStuInfo = params => {
   return request({
     url: '/student',
     method: 'put',
-    data: params,
+    data: params
   })
 }
 
@@ -124,7 +124,7 @@ const handleAddStuInfo = params => {
   return request({
     url: '/student',
     method: 'post',
-    data: params,
+    data: params
   })
 }
 
@@ -137,7 +137,7 @@ const exampleExcelStu = params => {
   return request({
     url: '/excel/downloadStudentTemplate',
     method: 'get',
-    responseType: 'arraybuffer',
+    responseType: 'arraybuffer'
   })
 }
 /**
@@ -151,8 +151,8 @@ const handlePostExcelStu = params => {
     method: 'post',
     data: params,
     headers: {
-      'Content-Type': 'multipart/form-data',
-    },
+      'Content-Type': 'multipart/form-data'
+    }
   })
 }
 
@@ -166,7 +166,7 @@ const handlePostExcelFreeStu = params => {
     url: '/excel/downloadFreeTestStudent',
     method: 'get',
     params,
-    responseType: 'arraybuffer',
+    responseType: 'arraybuffer'
   })
 }
 
@@ -179,7 +179,7 @@ const handleAuthStuInfo = params => {
   return request({
     url: '/student/monitor/list',
     method: 'get',
-    params,
+    params
   })
 }
 export {
@@ -196,5 +196,5 @@ export {
   handleAddStuInfo,
   exampleExcelStu,
   handlePostExcelStu,
-  handlePostExcelFreeStu,
+  handlePostExcelFreeStu
 }

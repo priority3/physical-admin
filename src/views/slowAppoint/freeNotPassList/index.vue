@@ -18,9 +18,14 @@
         </template>
       </el-table-column>
     </el-table>
-    <pagination :style="{ textAlign: 'right' }" :total="pagination.total" :size="pagination.size"
-      :current-page="pagination.current" :page-sizes="pagination.pageSizeOptions"
-      @pagination="handlePaginationChanged" />
+    <pagination
+      :style="{ textAlign: 'right' }"
+      :total="pagination.total"
+      :size="pagination.size"
+      :current-page="pagination.current"
+      :page-sizes="pagination.pageSizeOptions"
+      @pagination="handlePaginationChanged"
+    />
     <detail-info ref="detail" />
     <reject-approve ref="dialogApply" @complete="getList" />
   </div>

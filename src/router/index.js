@@ -51,7 +51,8 @@ export const constantRoutes = [
       {
         path: 'dashboard',
         name: 'Dashboard',
-        component: () => import(/* webpackChunkName: "dashboard" */ '@/views/dashboard/index'),
+        component: () =>
+          import(/* webpackChunkName: "dashboard" */ '@/views/dashboard/index'),
         meta: { title: '控制台', icon: 'dashboard' }
       }
     ]
@@ -82,7 +83,8 @@ export const constantRoutes = [
       {
         path: 'user-appoint-detail',
         name: 'UserPointDetail',
-        component: () => import('@/views/approintManagement/UserPointDetail/index')
+        component: () =>
+          import('@/views/approintManagement/UserPointDetail/index')
       }
     ]
   },
@@ -132,43 +134,33 @@ export const asyncRoutes = [
   {
     path: '/free',
     component: Layout,
-    meta: { roles: ['admin'] },
+    name: 'Free',
+    meta: {
+      title: '免测管理',
+      icon: 'el-icon-s-order',
+      roles: ['admin']
+    },
     children: [
       {
         path: 'manage-free',
         name: 'freeApprove',
         component: () => import('@/views/freeApprove/index'),
-        meta: { title: '免测管理', icon: 'el-icon-s-release' }
-      }
-    ]
-  },
-  {
-    path: '/slow',
-    component: Layout,
-    meta: { roles: ['admin'] },
-    children: [
+        meta: { title: '普通免测', icon: 'el-icon-s-release' }
+      },
       {
-        path: 'appoint',
+        path: 'slowAppoint',
         name: 'SlowAppoint',
         component: () => import('@/views/slowAppoint/index'),
         meta: { title: '缓测管理', icon: 'el-icon-c-scale-to-original' }
-      }
-    ]
-  },
-  {
-    path: '/other',
-    component: Layout,
-    meta: { roles: ['admin'] },
-    children: [
+      },
       {
-        path: 'appoint',
-        name: 'SlowAppoint',
+        path: 'otherAppoint',
+        name: 'OtherAppoint',
         component: () => import('@/views/otherApprove/index'),
         meta: { title: '其他事项', icon: 'el-icon-receiving' }
       }
     ]
   },
-
   {
     path: '/user',
     component: Layout,
@@ -181,7 +173,6 @@ export const asyncRoutes = [
         meta: { title: '个人信息', icon: 'el-icon-s-custom' }
       }
     ]
-
   },
 
   // 404 page must be placed at the end !!!

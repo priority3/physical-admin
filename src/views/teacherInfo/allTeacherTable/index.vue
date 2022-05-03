@@ -8,16 +8,37 @@
       <el-table-column prop="phone" label="联系方式" />
       <el-table-column width="150" label="操作">
         <template slot-scope="scope">
-          <el-button size="small" type="danger" @click="deleteListItem(scope.row)">删除</el-button>
-          <el-button size="small" type="success" @click="fixedInfo(scope.row)">编辑</el-button>
+          <el-button
+            size="small"
+            type="danger"
+            @click="deleteListItem(scope.row)"
+            >删除</el-button
+          >
+          <el-button size="small" type="success" @click="fixedInfo(scope.row)"
+            >编辑</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
-    <pagination :style="{ textAlign: 'right' }" :total="pagination.total" :size="pagination.size"
-      :current-page="pagination.current" :page-sizes="pagination.pageSizeOptions"
-      @pagination="handlePaginationChanged" />
-    <el-dialog title="详细信息" :visible.sync="state.editDialogVisible" width="30%">
-      <el-form ref="curList" :model="curList" label-width="80px" :rules="fixedRules">
+    <pagination
+      :style="{ textAlign: 'right' }"
+      :total="pagination.total"
+      :size="pagination.size"
+      :current-page="pagination.current"
+      :page-sizes="pagination.pageSizeOptions"
+      @pagination="handlePaginationChanged"
+    />
+    <el-dialog
+      title="详细信息"
+      :visible.sync="state.editDialogVisible"
+      width="30%"
+    >
+      <el-form
+        ref="curList"
+        :model="curList"
+        label-width="80px"
+        :rules="fixedRules"
+      >
         <el-form-item label="姓名" prop="name">
           <el-input v-model="curList.name" />
         </el-form-item>
@@ -39,12 +60,23 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="state.editDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submitFixed($refs['curList'])">确 定</el-button>
+        <el-button type="primary" @click="submitFixed($refs['curList'])"
+          >确 定</el-button
+        >
       </span>
     </el-dialog>
 
-    <el-dialog title="添加教师" :visible.sync="state.addDialogVisible" width="30%">
-      <el-form ref="addForm" :model="addForm" label-width="80px" :rules="fixedRules">
+    <el-dialog
+      title="添加教师"
+      :visible.sync="state.addDialogVisible"
+      width="30%"
+    >
+      <el-form
+        ref="addForm"
+        :model="addForm"
+        label-width="80px"
+        :rules="fixedRules"
+      >
         <el-form-item label="姓名" prop="name">
           <el-input v-model="addForm.name" />
         </el-form-item>
@@ -66,7 +98,9 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="state.addDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submitAdd($refs['addForm'])">确 定</el-button>
+        <el-button type="primary" @click="submitAdd($refs['addForm'])"
+          >确 定</el-button
+        >
       </span>
     </el-dialog>
   </div>
@@ -92,30 +126,24 @@ export default {
       },
       curList: [],
       fixedRules: {
-        name: [
-          { required: true, message: '请输入姓名', trigger: 'blur' }
-        ],
-        userName: [
-          { required: true, message: '请输入学号', trigger: 'blur' }
-        ],
-        sex: [
-          { required: true, message: '请输入性别', trigger: 'blur' }
-        ],
-        college: [
-          { required: true, message: '请输入学院', trigger: 'blur' }
-        ],
+        name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+        userName: [{ required: true, message: '请输入学号', trigger: 'blur' }],
+        sex: [{ required: true, message: '请输入性别', trigger: 'blur' }],
+        college: [{ required: true, message: '请输入学院', trigger: 'blur' }],
         phone: [
           { required: true, message: '请输入姓名', trigger: 'blur' },
-          { min: 11, max: 11, message: '手机号长度位11位数字', trigger: 'blur' }
-
+          {
+            min: 11,
+            max: 11,
+            message: '手机号长度位11位数字',
+            trigger: 'blur'
+          }
         ]
       },
       addForm: {}
     }
   },
-  created() {
-
-  },
+  created() {},
   methods: {
     fixedInfo(data) {
       this.state.editDialogVisible = true
@@ -125,22 +153,26 @@ export default {
     submitFixed(form) {
       form.validate((valid) => {
         if (valid) {
-          this.$store.dispatch('list/handleFixedTeacherInfo', this.curList).then((res) => {
-            this.$notify({
-              title: '成功',
-              message: '修改成功',
-              type: 'success'
+          this.$store
+            .dispatch('list/handleFixedTeacherInfo', this.curList)
+            .then((res) => {
+              this.$notify({
+                title: '成功',
+                message: '修改成功',
+                type: 'success'
+              })
+              this.getList()
             })
-            this.getList()
-          }).catch(() => {
-            this.$notify({
-              title: '错误',
-              message: '修改失败',
-              type: 'error'
+            .catch(() => {
+              this.$notify({
+                title: '错误',
+                message: '修改失败',
+                type: 'error'
+              })
             })
-          }).finally(() => {
-            this.state.editDialogVisible = false
-          })
+            .finally(() => {
+              this.state.editDialogVisible = false
+            })
         }
       })
     },
@@ -150,24 +182,28 @@ export default {
     // 添加学生
     submitAdd(form) {
       console.log(this.addForm)
-      form.validate(valid => {
+      form.validate((valid) => {
         if (valid) {
-          this.$store.dispatch('list/handleAddTeacher', this.addForm).then((res) => {
-            this.$notify({
-              title: '操作成功',
-              message: '添加成功',
-              type: 'success'
+          this.$store
+            .dispatch('list/handleAddTeacher', this.addForm)
+            .then((res) => {
+              this.$notify({
+                title: '操作成功',
+                message: '添加成功',
+                type: 'success'
+              })
+              this.getList()
             })
-            this.getList()
-          }).catch(() => {
-            this.$notify({
-              title: '错误',
-              message: '添加失败',
-              type: 'error'
+            .catch(() => {
+              this.$notify({
+                title: '错误',
+                message: '添加失败',
+                type: 'error'
+              })
             })
-          }).finally(() => {
-            this.state.addDialogVisible = false
-          })
+            .finally(() => {
+              this.state.addDialogVisible = false
+            })
         } else {
           this.$notify({
             title: '错误',
@@ -178,9 +214,7 @@ export default {
       })
     }
   }
-
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
